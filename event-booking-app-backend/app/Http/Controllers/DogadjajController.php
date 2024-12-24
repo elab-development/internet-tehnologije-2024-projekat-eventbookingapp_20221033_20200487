@@ -44,6 +44,7 @@ class DogadjajController extends Controller
             'lokacija' => 'required|string|max:255',
             'tip_dogadjaja' => 'required|in:koncert,festival,predstava,konferencija,izlozba',
             'opis' => 'nullable|string|max:5000',
+            'cena' => 'required|numeric|min:0',
             'izvodjac_id' => 'required|exists:izvodjaci,id',
         ]);
 
@@ -71,6 +72,7 @@ class DogadjajController extends Controller
             'lokacija' => 'string|max:255',
             'tip_dogadjaja' => 'in:koncert,festival,predstava,konferencija,izlozba',
             'opis' => 'nullable|string|max:5000',
+            'cena' => 'required|numeric|min:0',
             'izvodjac_id' => 'exists:izvodjaci,id',
         ]);
 

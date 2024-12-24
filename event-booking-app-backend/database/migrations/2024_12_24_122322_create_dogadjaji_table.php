@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('lokacija', 50); 
             $table->enum('tip_dogadjaja', ['koncert', 'festival', 'predstava', 'konferencija', 'izlozba']); 
             $table->string('opis', 50)->nullable(); 
+            $table->decimal('cena', 10, 2);
             $table->unsignedBigInteger('izvodjac_id');
             $table->timestamps(); 
         });

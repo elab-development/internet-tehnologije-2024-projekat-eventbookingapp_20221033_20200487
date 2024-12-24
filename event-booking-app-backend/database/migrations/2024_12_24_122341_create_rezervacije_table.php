@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->date('datum'); 
             $table->enum('status', ['neplaceno', 'placeno']); 
-            $table->integer('broj_karata'); 
+            $table->integer('broj_karata')->default(1); 
             $table->enum('tip_karti', ['regularna', 'vip', 'gold']); 
             $table->string('recenzija', 5000)->nullable(); 
             $table->unsignedBigInteger('korisnik_id');

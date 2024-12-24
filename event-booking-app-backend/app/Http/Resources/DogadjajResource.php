@@ -22,6 +22,7 @@ class DogadjajResource extends JsonResource
             'lokacija' => $this->lokacija,
             'tip_dogadjaja' => $this->tip_dogadjaja,
             'opis' => $this->opis,
+            'cena' => $this->cena,
             'izvodjac' => new IzvodjacResource($this->whenLoaded('izvodjac')),
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,

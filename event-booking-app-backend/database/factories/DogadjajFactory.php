@@ -29,6 +29,7 @@ class DogadjajFactory extends Factory
             'lokacija' => $this->faker->city, 
             'tip_dogadjaja' => $this->faker->randomElement(['koncert', 'festival', 'predstava', 'konferencija', 'izlozba']), 
             'opis' => $this->faker->paragraph, 
+            'cena' => $this->faker->randomFloat(2, 100, 10000),
             'izvodjac_id' => Izvodjac::factory(), 
         ];
     }

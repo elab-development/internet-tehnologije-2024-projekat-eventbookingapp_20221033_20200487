@@ -3,6 +3,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DogadjajController;
 use App\Http\Controllers\IzvodjacController;
+use App\Http\Controllers\RezervacijaController;
 
 Route::post('/register', [AuthController::class, 'register']); 
 Route::post('/login', [AuthController::class, 'login']); 
@@ -18,10 +19,17 @@ Route::middleware('auth:sanctum')->group(function () {
     });
 
     Route::prefix('izvodjaci')->group(function () {
-        Route::get('/izvodjaci', [IzvodjacController::class, 'index']); 
-        Route::get('/izvodjaci/{id}', [IzvodjacController::class, 'show']);
-        Route::post('/izvodjaci', [IzvodjacController::class, 'store']); 
-        Route::put('/izvodjaci/{id}', [IzvodjacController::class, 'update']);
+        Route::get('/', [IzvodjacController::class, 'index']); 
+        Route::get('/{id}', [IzvodjacController::class, 'show']);
+        Route::post('/', [IzvodjacController::class, 'store']); 
+        Route::put('/{id}', [IzvodjacController::class, 'update']);
+    });
+
+    Route::prefix('rezervacije')->group(function () {
+        Route::get('/', [RezervacijaController::class, 'index']); 
+        Route::get('/{id}', [RezervacijaController::class, 'show']); 
+        Route::post('/', [RezervacijaController::class, 'store']); 
+        Route::delete('/{id}', [RezervacijaController::class, 'destroy']); 
     });
 
     Route::post('/logout', [AuthController::class, 'logout']);

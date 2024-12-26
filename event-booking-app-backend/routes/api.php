@@ -25,12 +25,9 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::put('/{id}', [IzvodjacController::class, 'update']);
     });
 
-    Route::prefix('rezervacije')->group(function () {
-        Route::get('/', [RezervacijaController::class, 'index']); 
-        Route::get('/{id}', [RezervacijaController::class, 'show']); 
-        Route::post('/', [RezervacijaController::class, 'store']); 
-        Route::delete('/{id}', [RezervacijaController::class, 'destroy']); 
-    });
+    Route::resource('rezervacije', RezervacijaController::class)->only([
+        'index', 'show', 'store', 'destroy'
+    ]);    
 
     Route::post('/logout', [AuthController::class, 'logout']);
 });

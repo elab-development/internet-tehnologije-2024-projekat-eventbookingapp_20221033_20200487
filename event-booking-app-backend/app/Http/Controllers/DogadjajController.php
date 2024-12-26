@@ -120,4 +120,27 @@ class DogadjajController extends Controller
 
         return response()->json(['message' => 'Događaj uspešno obrisan.']);
     }
+    /**
+     * Pretraga događaja na osnovu naziva sa paginacijom.
+     */
+    public function search(Request $request)
+    {
+        $validated = $request->validate([
+            'naziv' => 'nullable|string|max:255',
+            'per_page' => 'nullable|integer|min:1|max:50', // Broj rezultata po stranici
+        ]);
+
+        $query = Dogadjaj::query();
+
+        if (!empty($validated['naziv'])) {
+            $query->where('naziv', 'like', '%' . $validated['naziv'] . '%');
+        }
+
+        $perPage = $validated['per_page'] ?? 10; // Podrazumevano 10 rezultata po stranici
+
+        $dogadjaji = $query->with('izvodjac')->paginate($perPage);
+
+        return DogadjajResource::collection($dogadjaji);
+    }
+
 }

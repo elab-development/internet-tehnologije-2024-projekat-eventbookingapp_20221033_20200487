@@ -16,11 +16,11 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::post('/', [DogadjajController::class, 'store']); 
         Route::put('/{id}', [DogadjajController::class, 'update']); 
         Route::patch('/{id}', [DogadjajController::class, 'updateDate']);
+        Route::delete('/{id}', [DogadjajController::class, 'destroy']);
+        Route::post('/pretraga', [DogadjajController::class, 'search']);
     });
 
     Route::prefix('izvodjaci')->group(function () {
-        Route::get('/', [IzvodjacController::class, 'index']); 
-        Route::get('/{id}', [IzvodjacController::class, 'show']);
         Route::post('/', [IzvodjacController::class, 'store']); 
         Route::put('/{id}', [IzvodjacController::class, 'update']);
     });
@@ -28,6 +28,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::resource('rezervacije', RezervacijaController::class)->only([
         'index', 'show', 'store', 'destroy'
     ]);    
+    Route::get('rezervacije/moje', [RezervacijaController::class, 'myReservations'])->name('rezervacije.moje');
 
     Route::post('/logout', [AuthController::class, 'logout']);
 });

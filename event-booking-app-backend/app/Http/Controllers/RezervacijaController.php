@@ -10,27 +10,48 @@ use App\Http\Resources\RezervacijaResource;
 class RezervacijaController extends Controller
 {
     /**
-     * Prikaz svih rezervacija korisnika (dostupno samo običnim korisnicima).
+     * Prikaz svih rezervacija korisnika (dostupno samo radnicima).
      */
     public function index()
     {
         $user = Auth::user();
 
-        $rezervacije = Rezervacija::where('korisnik_id', $user->id)->with('dogadjaj')->get();
+        if (!$user->app_employee) {
+            return response()->json(['error' => 'Samo radnici mogu pregledati sve rezervacije.'], 403);
+        }
+
+        $rezervacije = Rezervacija::with('dogadjaj')->get();
         return RezervacijaResource::collection($rezervacije);
     }
 
     /**
-     * Prikaz određene rezervacije korisnika (dostupno samo običnim korisnicima).
+     * Prikaz određene rezervacije korisnika (dostupno samo radnicima).
      */
     public function show($id)
     {
         $user = Auth::user();
 
-        $rezervacija = Rezervacija::where('korisnik_id', $user->id)->with('dogadjaj')->findOrFail($id);
+        if (!$user->app_employee) {
+            return response()->json(['error' => 'Samo radnici mogu pregledati određene rezervacije.'], 403);
+        }
+
+        $rezervacija = Rezervacija::with('dogadjaj')->findOrFail($id);
         return new RezervacijaResource($rezervacija);
     }
+    /**
+     * Prikaz svih rezervacija trenutnog korisnika (dostupno samo korisnicima).
+     */
+    public function myReservations()
+    {
+        $user = Auth::user();
 
+        if ($user->app_employee) {
+            return response()->json(['error' => 'Radnici ne mogu pregledati sopstvene rezervacije.'], 403);
+        }
+
+        $rezervacije = Rezervacija::where('korisnik_id', $user->id)->with('dogadjaj')->get();
+        return RezervacijaResource::collection($rezervacije);
+    }
     /**
      * Kreiranje nove rezervacije (dostupno samo običnim korisnicima).
      */

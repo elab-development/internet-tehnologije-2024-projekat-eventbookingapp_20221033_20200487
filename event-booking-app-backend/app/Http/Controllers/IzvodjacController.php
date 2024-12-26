@@ -10,24 +10,6 @@ use App\Http\Resources\IzvodjacResource;
 class IzvodjacController extends Controller
 {
     /**
-     * Prikaz svih izvođača (dostupno svim korisnicima).
-     */
-    public function index()
-    {
-        $izvodjaci = Izvodjac::all();
-        return IzvodjacResource::collection($izvodjaci);
-    }
-
-    /**
-     * Prikaz određenog izvođača (dostupno svim korisnicima).
-     */
-    public function show($id)
-    {
-        $izvodjac = Izvodjac::findOrFail($id);
-        return new IzvodjacResource($izvodjac);
-    }
-
-    /**
      * Kreiranje novog izvođača (dostupno samo radnicima).
      */
     public function store(Request $request)

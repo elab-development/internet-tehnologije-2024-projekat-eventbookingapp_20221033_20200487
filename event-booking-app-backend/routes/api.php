@@ -25,10 +25,11 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::put('/{id}', [IzvodjacController::class, 'update']);
     });
 
+    Route::get('rezervacije/moje', [RezervacijaController::class, 'myReservations']);
+    Route::post('rezervacije/{id}', [RezervacijaController::class, 'leaveReview']);
     Route::resource('rezervacije', RezervacijaController::class)->only([
         'index', 'show', 'store', 'destroy'
     ]);    
-    Route::get('rezervacije/moje', [RezervacijaController::class, 'myReservations'])->name('rezervacije.moje');
 
     Route::post('/logout', [AuthController::class, 'logout']);
 });

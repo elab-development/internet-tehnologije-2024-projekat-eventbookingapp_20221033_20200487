@@ -58,6 +58,9 @@ class RezervacijaController extends Controller
     public function store(Request $request)
     {
         $user = Auth::user();
+        if ($user->app_employee) {
+            return response()->json(['error' => 'Radnici ne mogu kreirati rezervacije.'], 403);
+        }
 
         $validated = $request->validate([
             'datum' => 'required|date|after:today',
@@ -72,6 +75,7 @@ class RezervacijaController extends Controller
             'korisnik_id' => $user->id,
         ]));
 
+
         return response()->json(['message' => 'Rezervacija uspešno kreirana.', 'rezervacija' => new RezervacijaResource($rezervacija)], 201);
     }
 
@@ -81,10 +85,42 @@ class RezervacijaController extends Controller
     public function destroy($id)
     {
         $user = Auth::user();
-
+        if ($user->app_employee) {
+            return response()->json(['error' => 'Radnici ne mogu brisati rezervacije.'], 403);
+        }
         $rezervacija = Rezervacija::where('korisnik_id', $user->id)->findOrFail($id);
+
+        if ($rezervacija->korisnik_id !== $user->id) {
+            return response()->json(['error' => 'Nemate pravo da obrišete ovu rezervaciju.'], 403);
+        }    
+
         $rezervacija->delete();
 
         return response()->json(['message' => 'Rezervacija uspešno obrisana.']);
+    }
+
+    /**
+     * Dodavanje recenzije na određenu rezervaciju (dostupno samo običnim korisnicima).
+     */
+    public function leaveReview(Request $request, $id)
+    {
+        $user = Auth::user();
+
+        // Proverava da li je korisnik vlasnik rezervacije
+        $rezervacija = Rezervacija::where('korisnik_id', $user->id)->findOrFail($id);
+
+        if ($rezervacija->korisnik_id !== $user->id) {
+            return response()->json(['error' => 'Nemate pravo da dodate recenziju na ovu rezervaciju.'], 403);
+        }
+
+        $validated = $request->validate([
+            'recenzija' => 'required|string|max:500',
+        ]);
+
+        $rezervacija->update([
+            'recenzija' => $validated['recenzija'],
+        ]);
+
+        return response()->json(['message' => 'Recenzija uspešno dodata.', 'rezervacija' => new RezervacijaResource($rezervacija)]);
     }
 }

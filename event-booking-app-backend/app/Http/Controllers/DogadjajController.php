@@ -14,6 +14,11 @@ class DogadjajController extends Controller
      */
     public function index()
     {
+        
+        if (!auth()->check()) {
+            return response()->json(['error' => 'Morate biti ulogovani da biste videli događaje.'], 401);
+        }
+
         $dogadjaji = Dogadjaj::with('izvodjac')->get();
         return DogadjajResource::collection($dogadjaji);
     }
@@ -23,6 +28,11 @@ class DogadjajController extends Controller
      */
     public function show($id)
     {
+
+        if (!auth()->check()) {
+            return response()->json(['error' => 'Morate biti ulogovani da biste videli detalje događaja.'], 401);
+        }
+
         $dogadjaj = Dogadjaj::with('izvodjac')->findOrFail($id);
         return new DogadjajResource($dogadjaj);
     }
@@ -129,6 +139,12 @@ class DogadjajController extends Controller
             'naziv' => 'nullable|string|max:255',
             'per_page' => 'nullable|integer|min:1|max:50', // Broj rezultata po stranici
         ]);
+
+        $user = Auth::user();
+
+        if (!$user->app_employee) {
+            return response()->json(['error' => 'Samo radnici mogu pretrazivati događaje.'], 403);
+        }
 
         $query = Dogadjaj::query();
 

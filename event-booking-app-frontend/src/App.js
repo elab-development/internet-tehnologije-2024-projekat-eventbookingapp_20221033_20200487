@@ -5,6 +5,7 @@ import Prijava from "./pages/Prijava";
 import Registracija from "./pages/Registracija";
 import Pocetna from "./pages/Pocetna";
 import NavigacioniMeni from "./components/NavigacioniMeni";
+import Futer from "./components/Futer";
 
 function App() {
   const [userData, setUserData] = useState({
@@ -14,6 +15,7 @@ function App() {
     token: null,
   });
 
+  // On mount, check sessionStorage and update state if data exists.
   useEffect(() => {
     const storedId = sessionStorage.getItem("userId");
     const storedAppEmployee = sessionStorage.getItem("app_employee");
@@ -33,10 +35,10 @@ function App() {
   }, []);
 
   const handleLogout = () => {
-    sessionStorage.clear(); // Brišemo podatke iz sessionStorage
+    sessionStorage.clear();
     setUserData({
       id: null,
-      role: null,
+      app_employee: null,
       name: null,
       token: null,
     });
@@ -44,22 +46,27 @@ function App() {
 
   return (
     <Router>
-       {userData.token && <NavigacioniMeni userData={userData} handleLogout={handleLogout} />}
+      {userData.token && <NavigacioniMeni userData={userData} handleLogout={handleLogout} />}
       <Routes>
-        <Route path="/" element={<Prijava setUserData={setUserData} userData={userData} />} />
+        <Route
+          path="/"
+          element={
+            userData.token 
+              ? <Navigate to="/pocetna" replace /> 
+              : <Prijava setUserData={setUserData} userData={userData} />
+          }
+        />
         <Route path="/registracija" element={<Registracija />} />
-
         <Route
           path="/pocetna"
           element={
-            userData.token && userData.app_employee === 0 ? (
-              <Pocetna />
-            ) : (
-              <Navigate to="/" />
-            )
+            userData.token && userData.app_employee === 0
+              ? <Pocetna />
+              : <Navigate to="/" replace />
           }
         />
       </Routes>
+      {userData.token && <Futer />}
     </Router>
   );
 }

@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Button from "../components/Button";
 
-const Prijava = ({ setUserData, userData }) => {
+const Prijava = ({ setUserData }) => {
   const navigate = useNavigate();
   const [error, setError] = useState(null);
   const [formData, setFormData] = useState({
@@ -12,7 +12,7 @@ const Prijava = ({ setUserData, userData }) => {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData((prevData) => ({
+    setFormData(prevData => ({
       ...prevData,
       [name]: value,
     }));
@@ -39,14 +39,15 @@ const Prijava = ({ setUserData, userData }) => {
       }
 
       console.log("Odgovor sa servera:", data);
-
       const { id, name, app_employee, token } = data.user;
 
+      // Save session data immediately
       sessionStorage.setItem("userId", id);
       sessionStorage.setItem("userName", name);
       sessionStorage.setItem("app_employee", app_employee ? "1" : "0");
       sessionStorage.setItem("userToken", token);
 
+      // Update React state
       setUserData({
         id,
         name,
@@ -56,17 +57,17 @@ const Prijava = ({ setUserData, userData }) => {
 
       console.log("Sačuvani podaci:", { id, name, app_employee, token });
 
+      // Alert the user
+      alert("Prijava uspešna! Preusmeravamo vas na početnu stranicu.");
+      
+      // Force a full-page redirect to /pocetna
+      window.location.replace("/pocetna");
+      
     } catch (error) {
       setError(error.message);
       console.error("Greška pri prijavi:", error);
     }
   };
-
-  useEffect(() => {
-    if (userData.token && userData.app_employee === 0) {
-      navigate("/pocetna");
-    }
-  }, [userData, navigate]);
 
   return (
     <div className="login-page">
@@ -83,18 +84,32 @@ const Prijava = ({ setUserData, userData }) => {
         <form onSubmit={handleSubmit} className="login-form">
           <div className="form-group">
             <label>Email</label>
-            <input type="email" name="email" value={formData.email} onChange={handleChange} required />
+            <input 
+              type="email" 
+              name="email" 
+              value={formData.email} 
+              onChange={handleChange} 
+              required 
+            />
           </div>
 
           <div className="form-group">
             <label>Lozinka</label>
-            <input type="password" name="password" value={formData.password} onChange={handleChange} required />
+            <input 
+              type="password" 
+              name="password" 
+              value={formData.password} 
+              onChange={handleChange} 
+              required 
+            />
           </div>
 
           <Button text="Prijavi se" type="submit" />
         </form>
 
-        <p className="register-text">Nemate nalog? Registrujte se klikom na dugme ispod:</p>
+        <p className="register-text">
+          Nemate nalog? Registrujte se klikom na dugme ispod:
+        </p>
         <Button text="Registracija" onClick={() => navigate("/registracija")} />
       </div>
     </div>

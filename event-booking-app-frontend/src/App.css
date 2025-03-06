@@ -228,8 +228,8 @@ button:hover {
 /* HERO SEKCIJA */
 .home-page {
   text-align: center;
-  margin-top: 260px;
-  margin-bottom: 100px;
+  margin-top: 380px;
+  margin-bottom: 30px;
   background-color: var(--background-color);
 }
 
@@ -277,4 +277,56 @@ button:hover {
   object-fit: cover;
   border-radius: 12px;
   box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+.footer {
+  background-color: var(--background-color-2); /* Dark background */
+  color: #E44D26; /* Orange text */
+  text-align: center;
+  padding: 20px;
+  margin-top: 10px;
+  width: 100vw
+}
+
+.footer-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.footer-logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.footer-logo-img {
+  width: 40px;
+  height: auto;
+}
+
+.footer-title {
+  font-size: 22px;
+  font-weight: bold;
+}
+
+.footer-trademark {
+  font-size: 14px;
+  opacity: 0.8;
+}
+
+.footer-icons {
+  display: flex;
+  gap: 15px;
+  margin-top: 10px;
+}
+
+.footer-icon {
+  color: #E44D26; /* Orange icons */
+  transition: color 0.3s ease, transform 0.2s ease;
+}
+
+.footer-icon:hover {
+  color: #FF7043; /* Lighter orange on hover */
+  transform: scale(1.1);
 }

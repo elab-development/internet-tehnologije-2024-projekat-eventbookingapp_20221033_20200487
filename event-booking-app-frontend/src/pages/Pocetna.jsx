@@ -28,7 +28,7 @@ const Pocetna = () => {
           Pronađite, rezervišite i organizujte događaje lako i bez stresa.
         </p>
         <div className="hero-buttons">
-          <Button text="Zakaži događaj" onClick={() => navigate("/dogadjaji")} />
+          <Button text="Napravi rezervaciju" onClick={() => navigate("/dogadjaji")} />
           <Button text="Pogledaj izvođače" onClick={() => navigate("/izvodjaci")} />
         </div>
       </div>

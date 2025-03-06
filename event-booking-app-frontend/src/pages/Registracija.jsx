@@ -46,7 +46,7 @@ const Registracija = () => {
         throw new Error(data.error || "Došlo je do greške pri registraciji.");
       }
 
-      alert("Registracija uspešna! Preusmeravamo vas na login stranicu.");
+      alert("Registracija uspešna! Preusmeravamo vas na stranicu za prijavu.");
       navigate("/");
     } catch (error) {
       console.log("Greška u registraciji:", error);

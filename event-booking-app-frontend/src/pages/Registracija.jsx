@@ -24,6 +24,12 @@ const Registracija = () => {
     e.preventDefault();
     setError(null);
 
+    // Postavljamo `app_employee` na 0 u zahtevu ka backendu
+    const dataToSend = {
+      ...formData,
+      app_employee: 0, // Uvek postavljamo na 0
+    };
+
     try {
       const response = await fetch("http://127.0.0.1:8000/api/register", {
         method: "POST",
@@ -31,7 +37,7 @@ const Registracija = () => {
           "Content-Type": "application/json",
           Accept: "application/json",
         },
-        body: JSON.stringify(formData),
+        body: JSON.stringify(dataToSend),
       });
 
       const data = await response.json();

@@ -1,8 +1,8 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import Button from "../components/Button";
 
-const Prijava = ({ setUserData }) => {
+const Prijava = ({ setUserData, userData }) => {
   const navigate = useNavigate();
   const [error, setError] = useState(null);
   const [formData, setFormData] = useState({
@@ -38,27 +38,35 @@ const Prijava = ({ setUserData }) => {
         throw new Error(data.error || "Neuspešna prijava.");
       }
 
-      const { id, role, name } = data.user;
-      const { token } = data;
+      console.log("Odgovor sa servera:", data);
+
+      const { id, name, app_employee, token } = data.user;
 
       sessionStorage.setItem("userId", id);
-      sessionStorage.setItem("userRole", role);
       sessionStorage.setItem("userName", name);
+      sessionStorage.setItem("app_employee", app_employee ? "1" : "0");
       sessionStorage.setItem("userToken", token);
 
-      setUserData({ id, role, name, token });
+      setUserData({
+        id,
+        name,
+        app_employee: app_employee ? 1 : 0,
+        token,
+      });
 
-      alert("Uspešno ste prijavljeni!");
+      console.log("Sačuvani podaci:", { id, name, app_employee, token });
 
-      if (role === "admin") {
-        navigate("/dashboard");
-      } else {
-        navigate("/home");
-      }
     } catch (error) {
       setError(error.message);
+      console.error("Greška pri prijavi:", error);
     }
   };
+
+  useEffect(() => {
+    if (userData.token && userData.app_employee === 0) {
+      navigate("/pocetna");
+    }
+  }, [userData, navigate]);
 
   return (
     <div className="login-page">

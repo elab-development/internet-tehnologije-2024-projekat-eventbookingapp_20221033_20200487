@@ -2,6 +2,7 @@
   --primary-color: #e44d26;
   --secondary-color: #f89c1c;
   --background-color: #f7f7f7;
+  --background-color-2: #dddddd;
   --text-color: #333;
   --input-border-color: #ccc;
   --error-color: #e63946;
@@ -135,18 +136,106 @@ button:hover {
   height: auto;
 }
 
-.home-page {
+
+/* NAVIGACIONI MENI */
+.nav-bar {
   display: flex;
-  flex-direction: column;
+  justify-content: space-between;
   align-items: center;
+  background-color: var(--background-color-2);
+  padding: 15px 30px;
+  width: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 1000;
+  transition: none !important; /* Prevents any hover effects */
+}
+
+.nav-bar:hover {
+  background-color: var(--background-color-2) !important; /* Ensures no hover color change */
+}
+
+
+.nav-left, .nav-right {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.nav-center {
+  margin-left: 100px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.nav-logo {
+  width: 40px;
+  height: auto;
+}
+
+.nav-title {
+  font-size: 22px;
+  font-weight: bold;
+  color: #E44D26; /* Narandžasti tekst */
+}
+
+.nav-link {
+  color: #E44D26; /* Narandžasta boja teksta */
+  text-decoration: none;
+  font-size: 16px;
+  font-weight: 600;
+  transition: opacity 0.3s ease-in-out;
+  pointer-events: auto;
+}
+.nav-link::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -2px;
+  width: 0;
+  height: 2px;
+  background-color: #E44D26;
+  transition: width 0.3s ease-in-out;
+}
+
+.nav-link:hover {
+  color: #CC3D1D; /* Darker shade for a subtle effect */
+  transform: translateY(-2px); /* Slight upward movement */
+}
+
+.user-info {
+  color: #E44D26; /* Narandžasti tekst */
+  font-size: 14px;
+  font-weight: bold;
+  white-space: nowrap; /* Sprečava prelamanje u novi red */
+}
+
+.logout-btn {
+  background: none;
+  border: none;
+  color: #E44D26; /* Narandžasta boja */
+  cursor: pointer;
+  transition: transform 0.2s;
+  margin-right: 80px;
+}
+
+.logout-btn:hover {
+  transform: scale(1.1);
+}
+
+/* HERO SEKCIJA */
+.home-page {
   text-align: center;
-  padding: 40px 20px;
+  margin-top: 260px;
+  margin-bottom: 100px;
   background-color: var(--background-color);
 }
 
 .hero-section {
   max-width: 800px;
-  margin-bottom: 40px;
+  margin: 0 auto 40px;
 }
 
 .hero-section h1 {
@@ -154,6 +243,10 @@ button:hover {
   color: var(--primary-color);
   font-weight: bold;
   margin-bottom: 10px;
+}
+
+.hero-section .highlight {
+  color: var(--secondary-color);
 }
 
 .hero-section p {
@@ -169,19 +262,19 @@ button:hover {
   gap: 15px;
 }
 
+/* CAROUSEL */
 .carousel-container {
   width: 80%;
   max-width: 1000px;
+  margin: 0 auto;
   overflow: hidden;
-  margin: 20px auto;
   border-radius: 12px;
 }
 
-.carousel-container img {
+.carousel-slide img {
   width: 100%;
-  height: 400px; /* Postavljamo maksimalnu visinu slika */
-  object-fit: cover; /* Sprečava rastezanje i osigurava da slike budu isečene pravilno */
+  height: 400px;
+  object-fit: cover;
   border-radius: 12px;
   box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
 }
-

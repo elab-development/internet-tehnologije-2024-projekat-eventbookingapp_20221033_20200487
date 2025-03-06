@@ -11,51 +11,35 @@ const Pocetna = () => {
   const sliderSettings = {
     dots: true,
     infinite: true,
-    speed: 500,
+    speed: 600,
     slidesToShow: 1,
     slidesToScroll: 1,
     autoplay: true,
-    autoplaySpeed: 3000,
+    autoplaySpeed: 3500,
     arrows: false,
   };
 
   return (
     <div className="home-page">
       <div className="hero-section">
-        <h1>Dobrodošli u EasyBook</h1>
+        <h1>Dobrodošli u <span className="highlight">EasyBook</span></h1>
         <p>
-          EasyBook je najmodernija platforma za jednostavnu i brzu rezervaciju događaja.
-          Pružamo korisnicima intuitivan način da pronađu, rezervišu i organizuju događaje bez stresa.
+          Najmodernija platforma za jednostavno i brzo zakazivanje događaja.  
+          Pronađite, rezervišite i organizujte događaje lako i bez stresa.
         </p>
         <div className="hero-buttons">
-          <Button text="Zakazi dogadjaj" onClick={() => navigate("/registracija")} />
-          <Button text="Pogledaj Izvodjace" onClick={() => navigate("/")} />
+          <Button text="Zakaži događaj" onClick={() => navigate("/dogadjaji")} />
+          <Button text="Pogledaj izvođače" onClick={() => navigate("/izvodjaci")} />
         </div>
       </div>
 
       <div className="carousel-container">
         <Slider {...sliderSettings}>
-          <div>
-            <img src="/assets/slider1.jpg" alt="Slika 1" />
-          </div>
-          <div>
-            <img src="/assets/slider2.jpg" alt="Slika 2" />
-          </div>
-          <div>
-            <img src="/assets/slider3.jpg" alt="Slika 3" />
-          </div>
-          <div>
-            <img src="/assets/slider4.jpg" alt="Slika 4" />
-          </div>
-          <div>
-            <img src="/assets/slider5.jpg" alt="Slika 5" />
-          </div>
-          <div>
-            <img src="/assets/slider6.jpg" alt="Slika 6" />
-          </div>
-          <div>
-            <img src="/assets/slider7.jpg" alt="Slika 7" />
-          </div>
+          {[1, 2, 3, 4, 5, 6, 7].map((num) => (
+            <div key={num} className="carousel-slide">
+              <img src={`/assets/slider${num}.jpg`} alt={`Slika ${num}`} />
+            </div>
+          ))}
         </Slider>
       </div>
     </div>

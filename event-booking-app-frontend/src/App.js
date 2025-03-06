@@ -4,6 +4,7 @@ import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-d
 import Prijava from "./pages/Prijava";
 import Registracija from "./pages/Registracija";
 import Pocetna from "./pages/Pocetna";
+import NavigacioniMeni from "./components/NavigacioniMeni";
 
 function App() {
   const [userData, setUserData] = useState({
@@ -31,8 +32,19 @@ function App() {
     }
   }, []);
 
+  const handleLogout = () => {
+    sessionStorage.clear(); // Brišemo podatke iz sessionStorage
+    setUserData({
+      id: null,
+      role: null,
+      name: null,
+      token: null,
+    });
+  };
+
   return (
     <Router>
+       {userData.token && <NavigacioniMeni userData={userData} handleLogout={handleLogout} />}
       <Routes>
         <Route path="/" element={<Prijava setUserData={setUserData} userData={userData} />} />
         <Route path="/registracija" element={<Registracija />} />

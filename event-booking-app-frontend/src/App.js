@@ -4,6 +4,8 @@ import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-d
 import Prijava from "./pages/Prijava";
 import Registracija from "./pages/Registracija";
 import Pocetna from "./pages/Pocetna";
+import Dogadjaji from "./pages/Dogadjaji";
+import DogadjajDetalji from "./pages/DogadjajDetalji"; // Nova komponenta
 import NavigacioniMeni from "./components/NavigacioniMeni";
 import Futer from "./components/Futer";
 
@@ -15,14 +17,11 @@ function App() {
     token: null,
   });
 
-  // On mount, check sessionStorage and update state if data exists.
   useEffect(() => {
     const storedId = sessionStorage.getItem("userId");
     const storedAppEmployee = sessionStorage.getItem("app_employee");
     const storedName = sessionStorage.getItem("userName");
     const storedToken = sessionStorage.getItem("userToken");
-
-    console.log("Provera sessionStorage:", { storedId, storedAppEmployee, storedToken });
 
     if (storedId && storedAppEmployee !== null && storedToken && storedName) {
       setUserData({
@@ -36,12 +35,7 @@ function App() {
 
   const handleLogout = () => {
     sessionStorage.clear();
-    setUserData({
-      id: null,
-      app_employee: null,
-      name: null,
-      token: null,
-    });
+    setUserData({ id: null, app_employee: null, name: null, token: null });
   };
 
   return (
@@ -50,20 +44,20 @@ function App() {
       <Routes>
         <Route
           path="/"
-          element={
-            userData.token 
-              ? <Navigate to="/pocetna" replace /> 
-              : <Prijava setUserData={setUserData} userData={userData} />
-          }
+          element={userData.token ? <Navigate to="/pocetna" replace /> : <Prijava setUserData={setUserData} userData={userData} />}
         />
         <Route path="/registracija" element={<Registracija />} />
         <Route
           path="/pocetna"
-          element={
-            userData.token && userData.app_employee === 0
-              ? <Pocetna />
-              : <Navigate to="/" replace />
-          }
+          element={userData.token && userData.app_employee === 0 ? <Pocetna /> : <Navigate to="/" replace />}
+        />
+        <Route
+          path="/dogadjaji"
+          element={userData.token && userData.app_employee === 0 ? <Dogadjaji userData={userData} /> : <Navigate to="/" replace />}
+        />
+        <Route
+          path="/dogadjaj/:id"
+          element={<DogadjajDetalji userData={userData} />}
         />
       </Routes>
       {userData.token && <Futer />}

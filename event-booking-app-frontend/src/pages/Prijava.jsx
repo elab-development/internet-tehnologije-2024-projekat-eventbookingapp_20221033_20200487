@@ -37,10 +37,10 @@ const Prijava = ({ setUserData }) => {
       if (!response.ok) {
         throw new Error(data.error || "Neuspešna prijava.");
       }
-
-      console.log("Odgovor sa servera:", data);
-      const { id, name, app_employee, token } = data.user;
-
+      
+      const { id, name, app_employee} = data.user;
+      
+      const token = data.token; 
       // Save session data immediately
       sessionStorage.setItem("userId", id);
       sessionStorage.setItem("userName", name);
@@ -54,8 +54,6 @@ const Prijava = ({ setUserData }) => {
         app_employee: app_employee ? 1 : 0,
         token,
       });
-
-      console.log("Sačuvani podaci:", { id, name, app_employee, token });
 
       // Alert the user
       alert("Prijava uspešna! Preusmeravamo vas na početnu stranicu.");

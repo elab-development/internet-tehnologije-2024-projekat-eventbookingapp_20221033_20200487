@@ -510,3 +510,143 @@ button:hover {
   background-color: #ccc;
   cursor: not-allowed;
 }
+
+/* Glavni kontejner */
+.dogadjaj-detalji-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+/* Raspored glavnog sadržaja (dogadjaj-left, izvodjac-right) */
+.dogadjaj-main {
+  display: flex;
+  flex-wrap: wrap; /* Da se prilagodi manjim ekranima */
+  gap: 20px;
+  justify-content: center;
+}
+
+/* Leva strana: dogadjaj */
+.dogadjaj-left {
+  flex: 1 1 400px;
+  background: #fff;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  padding: 15px;
+}
+
+.dogadjaj-slika img {
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+  border-radius: 8px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.dogadjaj-info-box {
+  margin-top: 15px;
+}
+
+.dogadjaj-info-box h2 {
+  color: #e44d26;
+  margin-bottom: 10px;
+}
+
+/* Desna strana: izvodjac */
+.izvodjac-right {
+  flex: 1 1 300px;
+  background: #fff;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  padding: 15px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.izvodjac-slika img {
+  width: 180px;
+  height: 180px;
+  object-fit: cover;
+  border-radius: 50%;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.izvodjac-info {
+  margin-top: 15px;
+  text-align: center;
+}
+
+.izvodjac-info h2 {
+  color: #e44d26;
+  margin-bottom: 10px;
+}
+
+/* Dugme Kontaktiraj */
+.kontakt-btn {
+  background-color: #e44d26;
+  color: #fff;
+  border: none;
+  padding: 8px 16px;
+  margin-top: 10px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: bold;
+}
+.kontakt-btn:hover {
+  background-color: #cc3d1d;
+}
+
+/* Dugmad ispod (Rezerviši, Izmeni, Obriši) */
+.dogadjaj-actions {
+  display: flex;
+  gap: 15px;
+  justify-content: center;
+  margin-top: 30px;
+}
+
+.action-btn {
+  background-color: #e44d26;
+  color: #fff;
+  border: none;
+  padding: 10px 18px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: bold;
+}
+.action-btn:hover {
+  background-color: #cc3d1d;
+}
+
+/* Različite boje za dugmad */
+.action-btn.rezervisi {
+  background-color: #ff7043; /* Svetlija narandžasta */
+}
+.action-btn.rezervisi:hover {
+  background-color: #ff5722;
+}
+.action-btn.izmeni {
+  background-color: #ffb300; /* Žućkasto */
+}
+.action-btn.izmeni:hover {
+  background-color: #ffa000;
+}
+.action-btn.obrisi {
+  background-color: #f44336; /* Crvenkasto */
+}
+.action-btn.obrisi:hover {
+  background-color: #e53935;
+}
+
+/* Responsivno prilagođavanje */
+@media (max-width: 768px) {
+  .dogadjaj-main {
+    flex-direction: column;
+    align-items: center;
+  }
+  .dogadjaj-left,
+  .izvodjac-right {
+    width: 100%;
+    margin: 0 auto;
+  }
+}

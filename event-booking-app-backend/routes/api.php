@@ -21,6 +21,7 @@ Route::middleware('auth:sanctum')->group(function () {
     });
 
     Route::prefix('izvodjaci')->group(function () {
+        Route::get('/{id}', [IzvodjacController::class, 'show']); 
         Route::post('/', [IzvodjacController::class, 'store']); 
         Route::put('/{id}', [IzvodjacController::class, 'update']);
     });

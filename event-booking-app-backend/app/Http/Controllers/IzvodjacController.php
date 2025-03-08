@@ -9,6 +9,19 @@ use App\Http\Resources\IzvodjacResource;
 
 class IzvodjacController extends Controller
 {
+
+  /**
+     * Prikaz pojedinačnog izvođača po ID-ju.
+     */
+    public function show($id)
+    {
+
+        $izvodjac = Izvodjac::findOrFail($id);
+
+        // Vraćamo jednog izvođača kao JSON, pomoću IzvodjacResource
+        return new IzvodjacResource($izvodjac);
+    }
+    
     /**
      * Kreiranje novog izvođača (dostupno samo radnicima).
      */

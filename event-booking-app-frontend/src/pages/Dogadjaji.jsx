@@ -2,12 +2,13 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { FaSearch } from "react-icons/fa";
 import { IoIosArrowDown, IoIosArrowForward } from "react-icons/io";
-import { Tooltip } from "react-tooltip";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import Kartica from "../components/Kartica";
 
 const Dogadjaji = ({ userData }) => {
   const token = userData?.token || sessionStorage.getItem("userToken");
+
+  const navigate = useNavigate();
 
   const [events, setEvents] = useState([]);
   const [pexelsImages, setPexelsImages] = useState([]);
@@ -132,8 +133,8 @@ const Dogadjaji = ({ userData }) => {
               location={evt.lokacija}
               type={evt.tip_dogadjaja}
               price={evt.cena}
+              onClickDetails={() => navigate(`/dogadjaj/${evt.id}`)}
             >
-              <Link to={`/dogadjaj/${evt.id}`} className="kartica-btn">Pogledaj detaljnije</Link>
             </Kartica>
           );
         })}

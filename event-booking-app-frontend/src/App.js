@@ -5,7 +5,8 @@ import Prijava from "./pages/Prijava";
 import Registracija from "./pages/Registracija";
 import Pocetna from "./pages/Pocetna";
 import Dogadjaji from "./pages/Dogadjaji";
-import DogadjajDetalji from "./pages/DogadjajDetalji"; // Nova komponenta
+import DogadjajDetalji from "./pages/DogadjajDetalji"; 
+import Izvodjaci from "./pages/Izvodjaci"; 
 import NavigacioniMeni from "./components/NavigacioniMeni";
 import Futer from "./components/Futer";
 
@@ -58,6 +59,10 @@ function App() {
         <Route
           path="/dogadjaj/:id"
           element={<DogadjajDetalji userData={userData} />}
+        />
+        <Route
+          path="/izvodjaci"
+          element={<Izvodjaci userData={userData} />}
         />
       </Routes>
       {userData.token && <Futer />}

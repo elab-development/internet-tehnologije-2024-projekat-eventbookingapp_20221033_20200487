@@ -9,6 +9,19 @@ use App\Http\Resources\IzvodjacResource;
 
 class IzvodjacController extends Controller
 {
+    /**
+ * Prikaz svih izvođača.
+ */
+public function index()
+{
+    $izvodjaci = Izvodjac::all();
+
+    return response()->json([
+        'message' => 'Lista svih izvođača uspešno dohvaćena.',
+        'data' => IzvodjacResource::collection($izvodjaci)
+    ], 200);
+}
+
 
   /**
      * Prikaz pojedinačnog izvođača po ID-ju.

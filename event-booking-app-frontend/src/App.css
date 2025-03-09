@@ -650,3 +650,52 @@ button:hover {
     margin: 0 auto;
   }
 }
+
+.izvodjaci-container {
+  padding: 40px;
+  margin-top: 2200px;
+  text-align: center;
+}
+
+.izvodjaci-container h1 {
+  font-size: 2rem;
+  margin-bottom: 20px;
+  color: #FF7043;
+}
+
+.modern-table {
+  width: 100%;
+  max-width: 900px;
+  margin: 0 auto;
+  border-collapse: collapse;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.modern-table th,
+.modern-table td {
+  padding: 12px;
+  border-bottom: 1px solid #ddd;
+  text-align: left;
+}
+
+.modern-table th {
+  background-color: #FF7043;
+  color: white;
+}
+
+.modern-table tbody tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+.modern-table tbody tr:hover {
+  background-color: rgba(255, 112, 67, 0.2);
+}
+
+.bio-column {
+  max-width: 400px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}

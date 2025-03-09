@@ -1,5 +1,5 @@
 import React from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams, useNavigate, Link } from "react-router-dom";
 import useEventDetails from "../hooks/useEventDetails";
 import usePerformer from "../hooks/usePerformer";
 import useImage from "../hooks/useImage";
@@ -21,6 +21,9 @@ const DogadjajDetalji = ({ userData }) => {
 
   return (
     <div className="dogadjaj-detalji-container" style={{ paddingTop: "600px" }}>
+        <div style={{paddingBottom:"10px"}}>
+          <Link style={{color:"#FF7043", fontWeight:"bold"}} to="/pocetna">Početna</Link> &gt; <Link style={{color:"#FF7043", fontWeight:"bold"}} to="/dogadjaji">Dogadjaji</Link> &gt; <span style={{fontWeight:"bold"}}>Detalji dogadjaja</span>
+        </div>
       <div className="dogadjaj-main">
         {/* Left Side: Event Image & Details */}
         <div className="dogadjaj-left">

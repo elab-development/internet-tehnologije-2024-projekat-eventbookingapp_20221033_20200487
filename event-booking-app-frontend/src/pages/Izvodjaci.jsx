@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import usePerformers from "../hooks/usePerformers";
 
 const Izvodjaci = ({ userData }) => {
@@ -11,6 +12,9 @@ const Izvodjaci = ({ userData }) => {
 
   return (
     <div className="izvodjaci-container">
+        <div style={{paddingTop:"25px"}}>
+          <Link style={{color:"#FF7043", fontWeight:"bold"}} to="/pocetna">Početna</Link> &gt; <span style={{fontWeight:"bold"}}>Izvodjaci</span>
+        </div>
       <h1>Lista Izvođača</h1>
       <table className="modern-table">
         <thead>

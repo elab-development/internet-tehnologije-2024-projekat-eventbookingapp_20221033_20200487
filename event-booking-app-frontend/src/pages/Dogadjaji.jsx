@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { FaSearch } from "react-icons/fa";
 import { IoIosArrowDown, IoIosArrowForward } from "react-icons/io";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import useImage from "../hooks/useImage";
 import useEvents from "../hooks/useEvents"; // Import new hook
 import Kartica from "../components/Kartica";
@@ -43,6 +43,9 @@ const Dogadjaji = ({ userData }) => {
 
   return (
     <div className="dogadjaji-page">
+        <div>
+          <Link style={{color:"#FF7043", fontWeight:"bold"}} to="/pocetna">Početna</Link> &gt; <span style={{fontWeight:"bold"}}>Dogadjaji</span>
+        </div>
       <div className="title-container">
         <span
           className="toggle-arrow"

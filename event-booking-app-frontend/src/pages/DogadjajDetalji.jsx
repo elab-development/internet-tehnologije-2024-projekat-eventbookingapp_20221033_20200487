@@ -1,129 +1,74 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import axios from "axios";
+import useEventDetails from "../hooks/useEventDetails";
+import usePerformer from "../hooks/usePerformer";
+import useImage from "../hooks/useImage";
 
 const DogadjajDetalji = ({ userData }) => {
   const { id } = useParams();
   const token = userData?.token || sessionStorage.getItem("userToken");
   const navigate = useNavigate();
-  // Stanje za dogadjaj i izvođača
-  const [dogadjaj, setDogadjaj] = useState(null);
-  const [izvodjac, setIzvodjac] = useState(null);
 
-  // Stanje za slike (sa Pexels-a)
-  const [imageUrlDogadjaj, setImageUrlDogadjaj] = useState("/assets/default.jpg");
-  const [imageUrlIzvodjac, setImageUrlIzvodjac] = useState("/assets/default.jpg");
+  const { event, performerId, loading: eventLoading, error: eventError } = useEventDetails(id, token);
+  const { performer, loading: performerLoading, error: performerError } = usePerformer(performerId, token);
 
-  // Fetch dogadjaj
-  useEffect(() => {
-    if (token) {
-      axios
-        .get(`http://127.0.0.1:8000/api/dogadjaji/${id}`, {
-          headers: { Authorization: `Bearer ${token}` },
-        })
-        .then((res) => {
-          setDogadjaj(res.data.data);
-          // Nakon što dobijemo dogadjaj, dohvatamo izvođača
-          if (res.data.data.izvodjac) {
-            fetchIzvodjac(res.data.data.izvodjac.id);
-          }
-        })
-        .catch((err) => console.error("Greška pri dohvaćanju detalja događaja:", err));
-    }
-  }, [id, token]);
+  // Generate **new** images **every time** an event is clicked
+  const eventImage = useImage(`concert event ${id}`);
+  const performerImage = useImage(`musician profile ${performerId}`);
 
-  // Fetch izvođac
-  const fetchIzvodjac = (izvodjacId) => {
-    axios
-      .get(`http://127.0.0.1:8000/api/izvodjaci/${izvodjacId}`, {
-        headers: { Authorization: `Bearer ${token}` },
-      })
-      .then((res) => {
-        setIzvodjac(res.data.data);
-      })
-      .catch((err) => console.error("Greška pri dohvaćanju izvođača:", err));
-  };
-
-  // Fetch random slike sa Pexels-a za dogadjaj i izvođača
-  useEffect(() => {
-    const API_KEY = process.env.REACT_APP_PEXELS_API_KEY;
-    if (API_KEY) {
-      // 1. Slika za dogadjaj
-      axios
-        .get("https://api.pexels.com/v1/search", {
-          headers: { Authorization: API_KEY },
-          params: { query: "event", per_page: 20 },
-        })
-        .then((res) => {
-          if (res.data && Array.isArray(res.data.photos) && res.data.photos.length > 0) {
-            const randomIndex = Math.floor(Math.random() * res.data.photos.length);
-            setImageUrlDogadjaj(res.data.photos[randomIndex].src.medium);
-          }
-        })
-        .catch((err) => console.error("Greška pri dohvaćanju slike dogadjaja:", err));
-
-      // 2. Slika za izvođača
-      axios
-        .get("https://api.pexels.com/v1/search", {
-          headers: { Authorization: API_KEY },
-          params: { query: "person portrait", per_page: 20 },
-        })
-        .then((res) => {
-          if (res.data && Array.isArray(res.data.photos) && res.data.photos.length > 0) {
-            const randomIndex = Math.floor(Math.random() * res.data.photos.length);
-            setImageUrlIzvodjac(res.data.photos[randomIndex].src.medium);
-          }
-        })
-        .catch((err) => console.error("Greška pri dohvaćanju slike izvođača:", err));
-    }
-  }, [id]);
-
-  if (!dogadjaj) {
-    return <p style={{ padding: "20px" }}>Učitavanje detalja događaja...</p>;
-  }
+  if (eventLoading) return <p style={{ padding: "20px" }}>Učitavanje detalja događaja...</p>;
+  if (eventError) return <p style={{ padding: "20px" }}>Greška pri učitavanju događaja.</p>;
 
   return (
-    <div className="dogadjaj-detalji-container" style={{paddingTop:"600px"}}>
+    <div className="dogadjaj-detalji-container" style={{ paddingTop: "600px" }}>
       <div className="dogadjaj-main">
-        {/* Leva strana: Slika dogadjaja + Info */}
+        {/* Left Side: Event Image & Details */}
         <div className="dogadjaj-left">
           <div className="dogadjaj-slika">
-            <img src={imageUrlDogadjaj} alt="Slika dogadjaja" />
+            <img src={eventImage} alt="Slika dogadjaja" />
           </div>
           <div className="dogadjaj-info-box">
             <h2>Info o događaju</h2>
-            <p><strong>Naziv:</strong> {dogadjaj.naziv}</p>
-            <p><strong>Datum:</strong> {dogadjaj.datum}</p>
-            <p><strong>Lokacija:</strong> {dogadjaj.lokacija}</p>
-            <p><strong>Tip:</strong> {dogadjaj.tip_dogadjaja}</p>
-            <p><strong>Opis:</strong> {dogadjaj.opis}</p>
-            <p><strong>Cena:</strong> {dogadjaj.cena} RSD</p>
+            <p><strong>Naziv:</strong> {event.naziv}</p>
+            <p><strong>Datum:</strong> {event.datum}</p>
+            <p><strong>Lokacija:</strong> {event.lokacija}</p>
+            <p><strong>Tip:</strong> {event.tip_dogadjaja}</p>
+            <p><strong>Opis:</strong> {event.opis}</p>
+            <p><strong>Cena:</strong> {event.cena} RSD</p>
           </div>
         </div>
 
-        {/* Desna strana: Slika izvođača + Info */}
+        {/* Right Side: Performer Image & Details */}
         <div className="izvodjac-right">
           <div className="izvodjac-slika">
-            <img src={imageUrlIzvodjac} alt="Slika izvođača" />
+            <img src={performerImage} alt="Slika izvođača" />
           </div>
-          {izvodjac ? (
+          {performerLoading ? (
+            <p style={{ marginTop: "20px" }}>Učitavanje izvođača...</p>
+          ) : performerError ? (
+            <p style={{ marginTop: "20px" }}>Greška pri učitavanju izvođača.</p>
+          ) : (
             <div className="izvodjac-info">
               <h2>Izvođač</h2>
-              <p><strong>Ime:</strong> {izvodjac.ime}</p>
-              <p><strong>Žanr:</strong> {izvodjac.zanr}</p>
-              <p><strong>Biografija:</strong> {izvodjac.biografija}</p>
-              <button className="kontakt-btn"  onClick={() => alert("IMPLEMENTIRACE SE ZA PROJEKAT")}>Kontaktiraj izvođača</button>
+              <p><strong>Ime:</strong> {performer?.ime}</p>
+              <p><strong>Žanr:</strong> {performer?.zanr}</p>
+              <p><strong>Biografija:</strong> {performer?.biografija}</p>
+              <button className="kontakt-btn" onClick={() => alert("IMPLEMENTIRACE SE ZA PROJEKAT")}>
+                Kontaktiraj izvođača
+              </button>
             </div>
-          ) : (
-            <p style={{ marginTop: "20px" }}>Učitavanje izvođača...</p>
           )}
         </div>
       </div>
 
-      {/* Dugmad ispod */}
+      {/* Action Buttons */}
       <div className="dogadjaj-actions">
-        <button className="action-btn rezervisi" onClick={() => alert("IMPLEMENTIRACE SE ZA PROJEKAT")}>Rezerviši događaj</button>
-        <button className="action-btn izmeni" onClick={() => navigate(-1)}>Nazad na pregled svih dogadjaja</button>
+        <button className="action-btn rezervisi" onClick={() => alert("IMPLEMENTIRACE SE ZA PROJEKAT")}>
+          Rezerviši događaj
+        </button>
+        <button className="action-btn izmeni" onClick={() => navigate(-1)}>
+          Nazad na pregled svih događaja
+        </button>
       </div>
     </div>
   );

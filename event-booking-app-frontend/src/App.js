@@ -58,11 +58,11 @@ function App() {
         />
         <Route
           path="/dogadjaj/:id"
-          element={<DogadjajDetalji userData={userData} />}
+          element={userData.token && userData.app_employee === 0 ? <DogadjajDetalji userData={userData} /> : <Navigate to="/" replace />}
         />
         <Route
           path="/izvodjaci"
-          element={<Izvodjaci userData={userData} />}
+          element={userData.token && userData.app_employee === 0 ? <Izvodjaci userData={userData} /> : <Navigate to="/" replace />}
         />
       </Routes>
       {userData.token && <Futer />}

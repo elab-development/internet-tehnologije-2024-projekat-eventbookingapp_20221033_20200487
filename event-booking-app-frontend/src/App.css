@@ -1,0 +1,701 @@
+:root {
+  --primary-color: #e44d26;
+  --secondary-color: #f89c1c;
+  --background-color: #f7f7f7;
+  --background-color-2: #dddddd;
+  --text-color: #333;
+  --input-border-color: #ccc;
+  --error-color: #e63946;
+}
+
+body {
+  font-family: "Poppins", sans-serif;
+  background-color: var(--background-color);
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+/* === LOGIN & REGISTRATION STYLING === */
+.login-page,
+.register-page {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.login-title,
+.register-title {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.login-title h1,
+.register-title h1 {
+  color: var(--primary-color);
+  font-size: 32px;
+  font-weight: 700;
+}
+
+.login-title p,
+.register-title p {
+  color: var(--text-color);
+  font-size: 16px;
+}
+
+.login-container,
+.register-container {
+  background: white;
+  padding: 30px;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  width: 360px;
+  text-align: center;
+}
+
+.login-container h2,
+.register-container h2 {
+  color: var(--primary-color);
+  font-size: 24px;
+  margin-bottom: 20px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+  margin-bottom: 15px;
+}
+
+.form-group label {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-color);
+  margin-bottom: 5px;
+}
+
+.form-group input {
+  padding: 12px;
+  border: 1px solid var(--input-border-color);
+  border-radius: 8px;
+  font-size: 16px;
+}
+
+.form-group input:focus {
+  outline: none;
+  border-color: var(--primary-color);
+  box-shadow: 0 0 5px rgba(228, 77, 38, 0.3);
+}
+
+.error-message {
+  color: var(--error-color);
+  font-size: 14px;
+  margin-bottom: 10px;
+}
+
+.login-text,
+.register-text {
+  margin-top: 15px;
+  font-size: 14px;
+  color: var(--text-color);
+}
+
+button {
+  background-color: var(--primary-color);
+  color: white;
+  border: none;
+  padding: 12px;
+  width: 100%;
+  font-size: 16px;
+  font-weight: 600;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+button:hover {
+  background-color: var(--secondary-color);
+}
+
+.login-title,
+.register-title {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.logo {
+  width: 50px;
+  height: auto;
+}
+
+
+/* NAVIGACIONI MENI */
+.nav-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: var(--background-color-2);
+  padding: 15px 30px;
+  width: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 1000;
+  transition: none !important; /* Prevents any hover effects */
+}
+
+.nav-bar:hover {
+  background-color: var(--background-color-2) !important; /* Ensures no hover color change */
+}
+
+
+.nav-left, .nav-right {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.nav-center {
+  margin-left: 100px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.nav-logo {
+  width: 40px;
+  height: auto;
+}
+
+.nav-title {
+  font-size: 22px;
+  font-weight: bold;
+  color: #E44D26; /* Narandžasti tekst */
+}
+
+.nav-link {
+  color: #E44D26; /* Narandžasta boja teksta */
+  text-decoration: none;
+  font-size: 16px;
+  font-weight: 600;
+  transition: opacity 0.3s ease-in-out;
+  pointer-events: auto;
+}
+.nav-link::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -2px;
+  width: 0;
+  height: 2px;
+  background-color: #E44D26;
+  transition: width 0.3s ease-in-out;
+}
+
+.nav-link:hover {
+  color: #CC3D1D; /* Darker shade for a subtle effect */
+  transform: translateY(-2px); /* Slight upward movement */
+}
+
+.user-info {
+  color: #E44D26; /* Narandžasti tekst */
+  font-size: 14px;
+  font-weight: bold;
+  white-space: nowrap; /* Sprečava prelamanje u novi red */
+}
+
+.logout-btn {
+  background: none;
+  border: none;
+  color: #E44D26; /* Narandžasta boja */
+  cursor: pointer;
+  transition: transform 0.2s;
+  margin-right: 80px;
+}
+
+.logout-btn:hover {
+  transform: scale(1.1);
+}
+
+/* HERO SEKCIJA */
+.home-page {
+  text-align: center;
+  margin-top: 380px;
+  margin-bottom: 30px;
+  background-color: var(--background-color);
+}
+
+.hero-section {
+  max-width: 800px;
+  margin: 0 auto 40px;
+}
+
+.hero-section h1 {
+  font-size: 42px;
+  color: var(--primary-color);
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.hero-section .highlight {
+  color: var(--secondary-color);
+}
+
+.hero-section p {
+  font-size: 18px;
+  color: var(--text-color);
+  line-height: 1.6;
+  margin-bottom: 20px;
+}
+
+.hero-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+}
+
+/* CAROUSEL */
+.carousel-container {
+  width: 80%;
+  max-width: 1000px;
+  margin: 0 auto;
+  overflow: hidden;
+  border-radius: 12px;
+}
+
+.carousel-slide img {
+  width: 100%;
+  height: 400px;
+  object-fit: cover;
+  border-radius: 12px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+.footer {
+  background-color: var(--background-color-2); /* Dark background */
+  color: #E44D26; /* Orange text */
+  text-align: center;
+  padding: 20px;
+  margin-top: 10px;
+  width: 100vw
+}
+
+.footer-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.footer-logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.footer-logo-img {
+  width: 40px;
+  height: auto;
+}
+
+.footer-title {
+  font-size: 22px;
+  font-weight: bold;
+}
+
+.footer-trademark {
+  font-size: 14px;
+  opacity: 0.8;
+}
+
+.footer-icons {
+  display: flex;
+  gap: 15px;
+  margin-top: 10px;
+}
+
+.footer-icon {
+  color: #E44D26; /* Orange icons */
+  transition: color 0.3s ease, transform 0.2s ease;
+}
+
+.footer-icon:hover {
+  color: #FF7043; /* Lighter orange on hover */
+  transform: scale(1.1);
+}
+
+/* Dogadjaji Page */
+.dogadjaji-page {
+  max-width: 1200px;
+  margin-top: 800px;
+  margin-left: 200px;
+  padding: 20px;
+}
+
+/* Naslov i strelica */
+.title-container {
+  display: flex;
+  align-items: center;
+  gap: 8px; /* Dodajemo razmak između strelice i naslova */
+  position: relative;
+}
+
+/* Strelica za otvaranje filtera */
+.toggle-arrow {
+  font-size: 24px;
+  cursor: pointer;
+  color: #e44d26;
+  transition: transform 0.3s ease-in-out;
+  display: flex;
+  align-items: center;
+}
+
+.toggle-arrow:hover {
+  transform: scale(1.2);
+  color: #cc3d1d;
+}
+
+/* Filter sekcija */
+.filter-box {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+  background: #f9f9f9;
+  padding: 15px;
+  border-radius: 8px;
+  margin-top: 10px;
+  margin-bottom: 15px;
+  border: 1px solid #e44d26;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+/* Input polje za pretragu */
+.search-container {
+  position: relative;
+}
+
+.search-input {
+  padding: 8px 30px 8px 8px;
+  border-radius: 4px;
+  border: 2px solid #e44d26;
+  background: white;
+}
+
+.search-icon {
+  position: absolute;
+  right: 8px;
+  top: 8px;
+  color: #e44d26;
+}
+
+/* Filteri i sortiranje */
+.sort-container, .filter-type-container {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  font-weight: bold;
+  color: #e44d26;
+}
+
+.sort-container select,
+.filter-type-container select {
+  padding: 8px;
+  font-size: 14px;
+  border: 2px solid #e44d26;
+  border-radius: 6px;
+  background-color: #fff6f0;
+  color: #333;
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
+}
+
+.sort-container select:hover,
+.filter-type-container select:hover {
+  background-color: #ffdab3;
+}
+
+.sort-container select:focus,
+.filter-type-container select:focus {
+  border-color: #cc3d1d;
+  outline: none;
+  box-shadow: 0 0 5px rgba(228, 77, 38, 0.6);
+}
+
+/* Lista događaja */
+.dogadjaji-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: center;
+}
+
+/* Kartica događaja */
+.kartica {
+  width: 300px;
+  border: 1px solid #ccc;
+  border-radius: 12px;
+  overflow: hidden;
+  text-align: center;
+  transition: box-shadow 0.3s ease;
+}
+
+.kartica:hover {
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+}
+
+.kartica-image-container {
+  width: 100%;
+  height: 200px;
+  overflow: hidden;
+  border-radius: 12px 12px 0 0;
+}
+
+.kartica-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.kartica-info {
+  padding: 15px;
+}
+
+.kartica-info h3 {
+  margin-bottom: 8px;
+}
+
+.kartica-info p {
+  margin: 4px 0;
+}
+
+.kartica-btn {
+  margin-top: 10px;
+  background-color: #e44d26;
+  color: #fff;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.kartica-btn:hover {
+  background-color: #cc3d1d;
+}
+
+/* Stilizacija paginacije */
+.paginacija {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.paginacija button {
+  margin: 0 10px;
+  padding: 8px 16px;
+  background-color: #e44d26;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.paginacija button:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+
+/* Glavni kontejner */
+.dogadjaj-detalji-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+/* Raspored glavnog sadržaja (dogadjaj-left, izvodjac-right) */
+.dogadjaj-main {
+  display: flex;
+  flex-wrap: wrap; /* Da se prilagodi manjim ekranima */
+  gap: 20px;
+  justify-content: center;
+}
+
+/* Leva strana: dogadjaj */
+.dogadjaj-left {
+  flex: 1 1 400px;
+  background: #fff;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  padding: 15px;
+}
+
+.dogadjaj-slika img {
+  width: 100%;
+  height: 450px; 
+  object-fit: cover;
+  border-radius: 8px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.dogadjaj-info-box {
+  margin-top: 15px;
+}
+
+.dogadjaj-info-box h2 {
+  color: #e44d26;
+  margin-bottom: 10px;
+}
+
+/* Desna strana: izvodjac */
+.izvodjac-right {
+  flex: 1 1 300px;
+  background: #fff;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  padding: 15px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.izvodjac-slika img {
+  width: 180px;
+  height: 180px;
+  object-fit: cover;
+  border-radius: 50%;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.izvodjac-info {
+  margin-top: 15px;
+  text-align: center;
+}
+
+.izvodjac-info h2 {
+  color: #e44d26;
+  margin-bottom: 10px;
+}
+
+/* Dugme Kontaktiraj */
+.kontakt-btn {
+  background-color: #e44d26;
+  color: #fff;
+  border: none;
+  padding: 8px 16px;
+  margin-top: 10px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: bold;
+}
+.kontakt-btn:hover {
+  background-color: #cc3d1d;
+}
+
+/* Dugmad ispod (Rezerviši, Izmeni, Obriši) */
+.dogadjaj-actions {
+  display: flex;
+  gap: 15px;
+  justify-content: center;
+  margin-top: 30px;
+}
+
+.action-btn {
+  background-color: #e44d26;
+  color: #fff;
+  border: none;
+  padding: 10px 18px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: bold;
+}
+.action-btn:hover {
+  background-color: #cc3d1d;
+}
+
+/* Različite boje za dugmad */
+.action-btn.rezervisi {
+  background-color: #ff7043; /* Svetlija narandžasta */
+}
+.action-btn.rezervisi:hover {
+  background-color: #ff5722;
+}
+.action-btn.izmeni {
+  background-color: #ffb300; /* Žućkasto */
+}
+.action-btn.izmeni:hover {
+  background-color: #ffa000;
+}
+.action-btn.obrisi {
+  background-color: #f44336; /* Crvenkasto */
+}
+.action-btn.obrisi:hover {
+  background-color: #e53935;
+}
+
+/* Responsivno prilagođavanje */
+@media (max-width: 768px) {
+  .dogadjaj-main {
+    flex-direction: column;
+    align-items: center;
+  }
+  .dogadjaj-left,
+  .izvodjac-right {
+    width: 100%;
+    margin: 0 auto;
+  }
+}
+
+.izvodjaci-container {
+  padding: 40px;
+  margin-top: 2200px;
+  text-align: center;
+}
+
+.izvodjaci-container h1 {
+  font-size: 2rem;
+  margin-bottom: 20px;
+  color: #FF7043;
+}
+
+.modern-table {
+  width: 100%;
+  max-width: 900px;
+  margin: 0 auto;
+  border-collapse: collapse;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.modern-table th,
+.modern-table td {
+  padding: 12px;
+  border-bottom: 1px solid #ddd;
+  text-align: left;
+}
+
+.modern-table th {
+  background-color: #FF7043;
+  color: white;
+}
+
+.modern-table tbody tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+.modern-table tbody tr:hover {
+  background-color: rgba(255, 112, 67, 0.2);
+}
+
+.bio-column {
+  max-width: 400px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}

@@ -14,9 +14,10 @@ class DogadjajController extends Controller
      */
     public function index()
     {
-        
-        if (!auth()->check()) {
-            return response()->json(['error' => 'Morate biti ulogovani da biste videli događaje.'], 401);
+        if (! auth()->check()) {
+            return response()->json([
+                'error' => 'Morate biti ulogovani da biste videli događaje.'
+            ], 401);
         }
 
         $dogadjaji = Dogadjaj::with('izvodjac')->get();
@@ -28,9 +29,10 @@ class DogadjajController extends Controller
      */
     public function show($id)
     {
-
-        if (!auth()->check()) {
-            return response()->json(['error' => 'Morate biti ulogovani da biste videli detalje događaja.'], 401);
+        if (! auth()->check()) {
+            return response()->json([
+                'error' => 'Morate biti ulogovani da biste videli detalje događaja.'
+            ], 401);
         }
 
         $dogadjaj = Dogadjaj::with('izvodjac')->findOrFail($id);
@@ -43,24 +45,29 @@ class DogadjajController extends Controller
     public function store(Request $request)
     {
         $user = Auth::user();
-
-        if (!$user->app_employee) {
-            return response()->json(['error' => 'Samo radnici mogu dodavati nove događaje.'], 403);
+        if (! $user->app_employee) {
+            return response()->json([
+                'error' => 'Samo radnici mogu dodavati nove događaje.'
+            ], 403);
         }
 
         $validated = $request->validate([
-            'naziv' => 'required|string|max:255',
-            'datum' => 'required|date|after:today',
-            'lokacija' => 'required|string|max:255',
+            'naziv'         => 'required|string|max:255',
+            'datum'         => 'required|date|after:today',
+            'lokacija'      => 'required|string|max:255',
             'tip_dogadjaja' => 'required|in:koncert,festival,predstava,konferencija,izlozba',
-            'opis' => 'nullable|string|max:5000',
-            'cena' => 'required|numeric|min:0',
-            'izvodjac_id' => 'required|exists:izvodjaci,id',
+            'opis'          => 'nullable|string|max:5000',
+            'cena'          => 'required|numeric|min:0',
+            'izvodjac_id'   => 'required|exists:izvodjaci,id',
+            'link_slike'    => 'nullable|string',      // novo polje
         ]);
 
         $dogadjaj = Dogadjaj::create($validated);
 
-        return response()->json(['message' => 'Događaj uspešno kreiran.', 'dogadjaj' => new DogadjajResource($dogadjaj)], 201);
+        return response()->json([
+            'message'  => 'Događaj uspešno kreiran.',
+            'dogadjaj' => new DogadjajResource($dogadjaj)
+        ], 201);
     }
 
     /**
@@ -69,26 +76,31 @@ class DogadjajController extends Controller
     public function update(Request $request, $id)
     {
         $user = Auth::user();
-
-        if (!$user->app_employee) {
-            return response()->json(['error' => 'Samo radnici mogu ažurirati događaje.'], 403);
+        if (! $user->app_employee) {
+            return response()->json([
+                'error' => 'Samo radnici mogu ažurirati događaje.'
+            ], 403);
         }
 
         $dogadjaj = Dogadjaj::findOrFail($id);
 
         $validated = $request->validate([
-            'naziv' => 'string|max:255',
-            'datum' => 'date|after:today',
-            'lokacija' => 'string|max:255',
+            'naziv'         => 'string|max:255',
+            'datum'         => 'date|after:today',
+            'lokacija'      => 'string|max:255',
             'tip_dogadjaja' => 'in:koncert,festival,predstava,konferencija,izlozba',
-            'opis' => 'nullable|string|max:5000',
-            'cena' => 'required|numeric|min:0',
-            'izvodjac_id' => 'exists:izvodjaci,id',
+            'opis'          => 'nullable|string|max:5000',
+            'cena'          => 'required|numeric|min:0',
+            'izvodjac_id'   => 'exists:izvodjaci,id',
+            'link_slike'    => 'nullable|string',      // novo polje
         ]);
 
         $dogadjaj->update($validated);
 
-        return response()->json(['message' => 'Događaj uspešno ažuriran.', 'dogadjaj' => new DogadjajResource($dogadjaj)]);
+        return response()->json([
+            'message'  => 'Događaj uspešno ažuriran.',
+            'dogadjaj' => new DogadjajResource($dogadjaj)
+        ]);
     }
 
     /**
@@ -97,9 +109,10 @@ class DogadjajController extends Controller
     public function updateDate(Request $request, $id)
     {
         $user = Auth::user();
-
-        if (!$user->app_employee) {
-            return response()->json(['error' => 'Samo radnici mogu menjati datum događaja.'], 403);
+        if (! $user->app_employee) {
+            return response()->json([
+                'error' => 'Samo radnici mogu menjati datum događaja.'
+            ], 403);
         }
 
         $dogadjaj = Dogadjaj::findOrFail($id);
@@ -108,55 +121,62 @@ class DogadjajController extends Controller
             'datum' => 'required|date|after:today',
         ]);
 
-        $dogadjaj->update(['datum' => $validated['datum']]);
+        $dogadjaj->update([
+            'datum' => $validated['datum']
+        ]);
 
-        return response()->json(['message' => 'Datum događaja uspešno ažuriran.', 'dogadjaj' => new DogadjajResource($dogadjaj)]);
+        return response()->json([
+            'message'  => 'Datum događaja uspešno ažuriran.',
+            'dogadjaj' => new DogadjajResource($dogadjaj)
+        ]);
     }
 
-       /**
+    /**
      * Brisanje događaja (dostupno samo radnicima).
      */
     public function destroy($id)
     {
         $user = Auth::user();
-
-        if (!$user->app_employee) {
-            return response()->json(['error' => 'Samo radnici mogu brisati događaje.'], 403);
+        if (! $user->app_employee) {
+            return response()->json([
+                'error' => 'Samo radnici mogu brisati događaje.'
+            ], 403);
         }
 
         $dogadjaj = Dogadjaj::findOrFail($id);
-
         $dogadjaj->delete();
 
-        return response()->json(['message' => 'Događaj uspešno obrisan.']);
+        return response()->json([
+            'message' => 'Događaj uspešno obrisan.'
+        ]);
     }
+
     /**
      * Pretraga događaja na osnovu naziva sa paginacijom.
      */
     public function search(Request $request)
     {
         $validated = $request->validate([
-            'naziv' => 'nullable|string|max:255',
-            'per_page' => 'nullable|integer|min:1|max:50', // Broj rezultata po stranici
+            'naziv'    => 'nullable|string|max:255',
+            'per_page' => 'nullable|integer|min:1|max:50',
         ]);
 
         $user = Auth::user();
-
-        if (!$user->app_employee) {
-            return response()->json(['error' => 'Samo radnici mogu pretrazivati događaje.'], 403);
+        if (! $user->app_employee) {
+            return response()->json([
+                'error' => 'Samo radnici mogu pretrazivati događaje.'
+            ], 403);
         }
 
         $query = Dogadjaj::query();
 
-        if (!empty($validated['naziv'])) {
+        if (! empty($validated['naziv'])) {
             $query->where('naziv', 'like', '%' . $validated['naziv'] . '%');
         }
 
-        $perPage = $validated['per_page'] ?? 10; // Podrazumevano 10 rezultata po stranici
-
+        $perPage   = $validated['per_page'] ?? 10;
         $dogadjaji = $query->with('izvodjac')->paginate($perPage);
 
         return DogadjajResource::collection($dogadjaji);
     }
-
 }

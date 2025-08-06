@@ -10,6 +10,7 @@ import Izvodjaci from "./pages/Izvodjaci";
 import NavigacioniMeni from "./components/NavigacioniMeni";
 import Futer from "./components/Futer";
 import Dashboard from "./pages/Dashboard";
+import MojeRezervacije from "./pages/MojeRezervacije";
 
 function App() {
   const [userData, setUserData] = useState({
@@ -80,6 +81,14 @@ function App() {
           ? <Dashboard userData={userData} />
           : <Navigate to="/" replace />}
         />
+        <Route
+  path="/moje-rezervacije"
+  element={
+    userData.token
+      ? <MojeRezervacije userData={userData}/>
+      : <Navigate to="/" replace/>
+  }
+/>
       </Routes>
       {userData.token && <Futer />}
     </Router>

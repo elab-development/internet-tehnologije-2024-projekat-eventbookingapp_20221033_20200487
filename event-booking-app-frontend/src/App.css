@@ -760,3 +760,234 @@ button:hover {
   object-fit: cover;
   border: 2px solid var(--primary-color);
 }
+
+.mr-page {
+  max-width: 1200px;
+  margin: 400px auto 60px;
+  padding: 0 20px;
+  text-align: center;
+}
+
+.mr-title {
+  font-size: 2.5rem;
+  color: var(--primary-color);
+  margin-bottom: 1rem;
+}
+
+.mr-loading,
+.mr-error {
+  font-size: 1.2rem;
+  color: var(--text-color);
+  margin-top: 2rem;
+}
+
+.mr-empty-state {
+  text-align: center;
+  margin: 400px auto;
+}
+
+.mr-empty-state p {
+  font-size: 1.2rem;
+  margin-bottom: 20px;
+}
+
+.mr-go-btn {
+  background-color: var(--primary-color);
+  color: white;
+  border: none;
+  padding: 12px 24px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.mr-go-btn:hover {
+  background-color: var(--secondary-color);
+}
+
+.mr-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 20px;
+  margin-top: 30px;
+}
+
+.mr-card {
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+  padding: 20px;
+  text-align: left;
+}
+
+.mr-card-title {
+  font-size: 1.4rem;
+  color: var(--secondary-color);
+  margin-bottom: 10px;
+}
+
+.mr-card p {
+  margin: 6px 0;
+  color: var(--text-color);
+}
+
+.mr-existing-review {
+  margin-top: 10px;
+  font-style: italic;
+  color: #555;
+}
+
+.mr-card-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 15px;
+}
+
+.mr-details-btn,
+.mr-delete-btn,
+.mr-review-btn {
+  background-color: var(--primary-color);
+  color: white;
+  border: none;
+  padding: 10px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: background-color 0.3s ease;
+  width: 100%;
+}
+
+.mr-delete-btn {
+  background-color: #f44336;
+}
+
+.mr-review-btn {
+  background-color: #4caf50;
+}
+
+.mr-details-btn:hover {
+  background-color: var(--secondary-color);
+}
+
+.mr-delete-btn:hover {
+  background-color: #e53935;
+}
+
+.mr-review-btn:hover {
+  background-color: #43a047;
+}
+
+/* Modal overlay */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2000;
+}
+
+/* Modal window */
+.modal-content {
+  background: #fff;
+  border-radius: 8px;
+  padding: 24px;
+  width: 90%;
+  max-width: 400px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+}
+
+/* Form inside modal */
+.modal-form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.modal-form label {
+  display: flex;
+  flex-direction: column;
+  font-weight: 600;
+  color: var(--text-color);
+}
+
+.modal-form input,
+.modal-form select {
+  margin-top: 4px;
+  padding: 8px;
+  border: 1px solid var(--input-border-color);
+  border-radius: 4px;
+  font-size: 1rem;
+}
+
+.modal-error {
+  color: var(--error-color);
+  font-size: 0.9rem;
+  margin-bottom: 8px;
+  text-align: center;
+}
+
+/* Buttons row */
+.modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 12px;
+}
+
+.modal-cancel {
+  background: none;
+  border: 1px solid var(--primary-color);
+  color: var(--primary-color);
+  padding: 8px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.modal-submit {
+  background-color: var(--primary-color);
+  color: #fff;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.modal-cancel:disabled,
+.modal-submit:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* This sits below your .dogadjaj-main two-column flexbox */
+.recenzije-box {
+  width: 100%;           /* span both columns */
+  background: #fff;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  padding: 16px;
+  margin: 20px 0;        /* space above/below */
+  max-height: 300px;     /* limit height */
+  overflow-y: auto;      /* scroll if too tall */
+}
+
+/* Individual review entry */
+.recenzija-item {
+  padding: 8px 0;
+  border-bottom: 1px solid #eee;
+}
+
+/* Last one no border */
+.recenzija-item:last-child {
+  border-bottom: none;
+}
+
+.rec-error {
+  color: #e63946;
+}

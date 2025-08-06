@@ -123,4 +123,18 @@ class RezervacijaController extends Controller
 
         return response()->json(['message' => 'Recenzija uspešno dodata.', 'rezervacija' => new RezervacijaResource($rezervacija)]);
     }
+
+    /**
+     * Prikaži sve recenzije na osnovu dogadjaj_id.
+     */
+    public function eventReviews($id)
+    {
+        // svi korisnici mogu gledati recenzije
+        $reviews = Rezervacija::where('dogadjaj_id', $id)
+            ->whereNotNull('recenzija')
+            ->with('korisnik')
+            ->get();
+
+        return RezervacijaResource::collection($reviews);
+    }
 }

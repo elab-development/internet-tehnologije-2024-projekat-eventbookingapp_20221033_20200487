@@ -15,6 +15,7 @@ class Izvodjac extends Model
         'ime',
         'zanr',
         'biografija',
+        'link_slike'
     ];
 
     public function dogadjaji()

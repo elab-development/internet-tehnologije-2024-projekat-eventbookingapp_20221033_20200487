@@ -17,6 +17,7 @@ class Dogadjaj extends Model
         'lokacija',
         'tip_dogadjaja',
         'opis',
+        'link_slike',
         'cena',     
         'izvodjac_id',
     ];

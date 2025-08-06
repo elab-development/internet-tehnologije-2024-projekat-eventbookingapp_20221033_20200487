@@ -28,6 +28,7 @@ Route::middleware('auth:sanctum')->group(function () {
     });
 
     Route::get('rezervacije/moje', [RezervacijaController::class, 'myReservations']);
+    Route::get('dogadjaji/{id}/recenzije', [RezervacijaController::class, 'eventReviews']);
     Route::post('rezervacije/{id}', [RezervacijaController::class, 'leaveReview']);
     Route::resource('rezervacije', RezervacijaController::class)->only([
         'index', 'show', 'store', 'destroy'

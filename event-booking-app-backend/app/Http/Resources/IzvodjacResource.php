@@ -19,6 +19,7 @@ class IzvodjacResource extends JsonResource
             'id' => $this->id,
             'ime' => $this->ime,
             'zanr' => $this->zanr,
+            'link_slike'    => $this->link_slike,   
             'biografija' => $this->biografija,
         ];
     }

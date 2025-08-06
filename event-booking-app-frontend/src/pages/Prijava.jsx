@@ -58,8 +58,12 @@ const Prijava = ({ setUserData }) => {
       // Alert the user
       alert("Prijava uspešna! Preusmeravamo vas na početnu stranicu.");
       
-      // Force a full-page redirect to /pocetna
-      window.location.replace("/pocetna");
+      if (app_employee) {
+        window.location.replace("/dashboard");
+      } else {
+        // Force a full-page redirect to /pocetna
+        window.location.replace("/pocetna");
+      }
       
     } catch (error) {
       setError(error.message);

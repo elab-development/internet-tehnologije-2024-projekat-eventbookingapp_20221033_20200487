@@ -9,6 +9,7 @@ import DogadjajDetalji from "./pages/DogadjajDetalji";
 import Izvodjaci from "./pages/Izvodjaci"; 
 import NavigacioniMeni from "./components/NavigacioniMeni";
 import Futer from "./components/Futer";
+import Dashboard from "./pages/Dashboard";
 
 function App() {
   const [userData, setUserData] = useState({
@@ -43,10 +44,18 @@ function App() {
     <Router>
       {userData.token && <NavigacioniMeni userData={userData} handleLogout={handleLogout} />}
       <Routes>
-        <Route
-          path="/"
-          element={userData.token ? <Navigate to="/pocetna" replace /> : <Prijava setUserData={setUserData} userData={userData} />}
-        />
+  <Route
+    path="/"
+    element={
+      userData.token 
+        ? (
+            userData.app_employee === 1
+              ? <Navigate to="/dashboard" replace />
+              : <Navigate to="/pocetna" replace />
+          )
+        : <Prijava setUserData={setUserData} />
+    }
+  />
         <Route path="/registracija" element={<Registracija />} />
         <Route
           path="/pocetna"
@@ -63,6 +72,13 @@ function App() {
         <Route
           path="/izvodjaci"
           element={userData.token && userData.app_employee === 0 ? <Izvodjaci userData={userData} /> : <Navigate to="/" replace />}
+        />
+        <Route
+        path="/dashboard"
+        element={
+        userData.token 
+          ? <Dashboard userData={userData} />
+          : <Navigate to="/" replace />}
         />
       </Routes>
       {userData.token && <Futer />}

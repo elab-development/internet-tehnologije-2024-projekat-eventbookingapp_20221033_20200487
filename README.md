@@ -2,6 +2,8 @@
 
 **EasyBook** je moderna, full-stack web aplikacija za pregled događaja, upravljanje izvođačima i online rezervacije. Korisnici lako pronalaze i rezervišu događaje (koncerti, festivali, predstave, konferencije, izložbe), dok administratori imaju jasan panel za upravljanje celom platformom.
 
+![Logo](./images/logo.png)
+
 ---
 
 ## Funkcionalnosti

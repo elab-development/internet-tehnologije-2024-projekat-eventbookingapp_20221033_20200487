@@ -27,6 +27,9 @@ const Rezervacije = ({ userData }) => {
   const [statusSaving, setStatusSaving] = useState(false);
   const [statusErr, setStatusErr] = useState(null);
 
+  // export csv
+  const [exporting, setExporting] = useState(false);
+
   useEffect(() => {
     if (!token || !isAdmin) return;
     setLoading(true);
@@ -109,6 +112,33 @@ const Rezervacije = ({ userData }) => {
     }
   }
 
+  async function exportCsv() {
+    try {
+      setExporting(true);
+      const res = await fetch("http://127.0.0.1:8000/api/rezervacije/export/csv", {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      if (!res.ok) {
+        const t = await res.text();
+        throw new Error(t || "Greška pri eksportu CSV fajla.");
+      }
+      const blob = await res.blob();
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      const stamp = new Date().toISOString().replace(/[:.]/g, "-");
+      a.href = url;
+      a.download = `rezervacije_${stamp}.csv`;
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      window.URL.revokeObjectURL(url);
+    } catch (e) {
+      alert(e.message);
+    } finally {
+      setExporting(false);
+    }
+  }
+
   if (!token || !isAdmin) {
     return <p className="rez-error">Ova stranica je dostupna samo radnicima (adminima).</p>;
   }
@@ -118,8 +148,16 @@ const Rezervacije = ({ userData }) => {
       <div className="rez-header">
         <h1>Rezervacije — Admin pregled</h1>
         <p className="rez-subtitle">
-          Prikaz svih rezervacija. Klikom na <em>Promeni status</em> otvarate modal sa kompletnim informacijama i akcijom za ažuriranje statusa.
+          Prikaz svih rezervacija. Klikom na <em>Promeni status</em> otvarate modal sa kompletnim
+          informacijama i akcijom za ažuriranje statusa.
         </p>
+        <div className="rez-actions" style={{marginLeft:"1000px", marginBottom:"20px"}}>
+          <Button
+            text={exporting ? "Eksportujem…" : "Export CSV"}
+            type="button"
+            onClick={exportCsv}
+          />
+        </div>
       </div>
 
       {loading && <p className="rez-loading">Učitavanje…</p>}
@@ -153,8 +191,7 @@ const Rezervacije = ({ userData }) => {
                   paginated.map((r) => {
                     const cenaKarte = r?.cena_karte ?? r?.dogadjaj?.cena ?? 0;
                     const ukupno = r?.ukupna_cena ?? Math.round(cenaKarte * (r?.broj_karata ?? 0));
-                    const korisnikIme =
-                      r?.korisnik?.name || (r?.korisnik?.ime ?? "—");
+                    const korisnikIme = r?.korisnik?.name || (r?.korisnik?.ime ?? "—");
                     return (
                       <tr key={r.id}>
                         <td>{r.id}</td>
@@ -218,12 +255,10 @@ const Rezervacije = ({ userData }) => {
                   <span>{detail?.korisnik?.name || detail?.korisnik?.ime || "—"}</span>
                 </div>
                 <div className="rez-detail-row">
-                  <strong>Događaj:</strong>{" "}
-                  <span>{detail?.dogadjaj?.naziv || "—"}</span>
+                  <strong>Događaj:</strong> <span>{detail?.dogadjaj?.naziv || "—"}</span>
                 </div>
                 <div className="rez-detail-row">
-                  <strong>Datum rezervacije:</strong>{" "}
-                  <span>{detail?.datum || "—"}</span>
+                  <strong>Datum rezervacije:</strong> <span>{detail?.datum || "—"}</span>
                 </div>
                 <div className="rez-detail-row">
                   <strong>Status:</strong>{" "}
@@ -243,13 +278,14 @@ const Rezervacije = ({ userData }) => {
                 </div>
                 <div className="rez-detail-row">
                   <strong>Ukupna cena:</strong>{" "}
-                  <span>{detail?.ukupna_cena ?? (detail?.dogadjaj?.cena ?? 0) * (detail?.broj_karata ?? 0)} RSD</span>
+                  <span>
+                    {detail?.ukupna_cena ??
+                      (detail?.dogadjaj?.cena ?? 0) * (detail?.broj_karata ?? 0)}{" "}
+                    RSD
+                  </span>
                 </div>
 
-                {/* PATCH status section */}
-                {statusErr && (
-                  <div className="rez-error" style={{ marginTop: 8 }}>{statusErr}</div>
-                )}
+                {statusErr && <div className="rez-error" style={{ marginTop: 8 }}>{statusErr}</div>}
                 <div className="rez-modal-actions" style={{ gap: 8 }}>
                   <Button text="Zatvori" onClick={closeDetails} />
                   <Button

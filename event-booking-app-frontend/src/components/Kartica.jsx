@@ -1,6 +1,6 @@
 import React from "react";
 
-const Kartica = ({ imageUrl, name, location, type, price, onClickDetails }) => {
+const Kartica = ({ imageUrl, name, location, type, price, onClickDetails, show=true }) => {
   return (
     <div className="kartica">
       <div className="kartica-image-container">
@@ -11,9 +11,9 @@ const Kartica = ({ imageUrl, name, location, type, price, onClickDetails }) => {
         <p> <span style={{color:"#FF7043", fontWeight:"bold"}}>Lokacija: </span>{location}</p>
         <p> <span style={{color:"#FF7043", fontWeight:"bold"}}>Tip dogadjaja: </span>{type}</p>
         <p> <span style={{color:"#FF7043", fontWeight:"bold"}}> Cena: </span>{price} RSD</p>
-        <button className="kartica-btn" onClick={onClickDetails}>
+       {show && <button className="kartica-btn" onClick={onClickDetails}>
           Pogledaj detaljnije
-        </button>
+        </button>}
       </div>
     </div>
   );

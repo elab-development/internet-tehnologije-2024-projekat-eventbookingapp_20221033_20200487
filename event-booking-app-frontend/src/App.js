@@ -11,6 +11,8 @@ import NavigacioniMeni from "./components/NavigacioniMeni";
 import Futer from "./components/Futer";
 import Dashboard from "./pages/Dashboard";
 import MojeRezervacije from "./pages/MojeRezervacije";
+import MenadzmentDogadjaja from './pages/MenadzmentDogadjaja';
+import MenadzmentIzvodjaca from './pages/MenadzmentIzvodjaca';
 
 function App() {
   const [userData, setUserData] = useState({
@@ -82,13 +84,29 @@ function App() {
           : <Navigate to="/" replace />}
         />
         <Route
-  path="/moje-rezervacije"
-  element={
-    userData.token
-      ? <MojeRezervacije userData={userData}/>
-      : <Navigate to="/" replace/>
-  }
-/>
+          path="/moje-rezervacije"
+          element={
+            userData.token
+              ? <MojeRezervacije userData={userData}/>
+              : <Navigate to="/" replace/>
+          }
+        />
+        <Route
+          path="/admin/dogadjaji"
+          element={
+            userData.token
+              ? <MenadzmentDogadjaja userData={userData}/>
+              : <Navigate to="/" replace/>
+          }
+        />
+        <Route
+          path="/admin/izvodjaci"
+          element={
+            userData.token
+              ? <MenadzmentIzvodjaca userData={userData}/>
+              : <Navigate to="/" replace/>
+          }
+        />
       </Routes>
       {userData.token && <Futer />}
     </Router>

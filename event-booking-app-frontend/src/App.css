@@ -991,3 +991,241 @@ button:hover {
 .rec-error {
   color: #e63946;
 }
+
+/* src/pages/MenadzmentDogadjaja.css */
+.md-page {
+  max-width:1200px;
+  margin:100px auto 40px;
+  padding:0 20px;
+}
+.md-header {
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:20px;
+}
+.md-grid {
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:20px;
+}
+.md-pagination {
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  gap:15px;
+  margin-top:20px;
+}
+.md-modal-overlay {
+  position:fixed;top:0;left:0;width:100%;height:100%;
+  background:rgba(0,0,0,0.5);
+  display:flex;align-items:center;justify-content:center;
+  z-index:2000;
+}
+.md-modal {
+  background:#fff;
+  padding:24px;
+  border-radius:8px;
+  width:90%;max-width:500px;
+}
+.md-form {
+  display:flex;
+  flex-direction:column;
+  gap:12px;
+}
+.md-form label {
+  display:flex;
+  flex-direction:column;
+  font-weight:600;
+}
+.md-form input,
+.md-form select,
+.md-form textarea {
+  margin-top:4px;
+  padding:8px;
+  border:1px solid var(--input-border-color);
+  border-radius:4px;
+}
+.md-form-actions {
+  display:flex;
+  justify-content:flex-end;
+  gap:10px;
+  margin-top:12px;
+}
+.md-submit-error {
+  color:var(--error-color);
+}
+
+.mi-page {
+  max-width: 1200px;
+  margin: 100px auto 40px;
+  padding: 0 20px;
+}
+
+.mi-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 14px;
+}
+
+.mi-controls {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.mi-search {
+  padding: 10px 12px;
+  border: 2px solid var(--primary-color);
+  border-radius: 8px;
+  outline: none;
+  min-width: 280px;
+  background: #fff;
+}
+
+.mi-ghost-btn {
+  background: #fff;
+  border: 2px solid var(--primary-color);
+  color: var(--primary-color);
+  padding: 10px 12px;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all .2s ease;
+}
+.mi-ghost-btn:hover {
+  background: var(--secondary-color);
+  color: #fff;
+  border-color: var(--secondary-color);
+}
+
+.mi-table-wrap {
+  overflow: auto;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgb(0 0 0 / 10%);
+  background: #fff;
+}
+
+.mi-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.mi-table thead th {
+  background: var(--secondary-color);
+  color: #fff;
+  text-align: left;
+  padding: 12px;
+  font-weight: 700;
+}
+
+.mi-table tbody td {
+  padding: 12px;
+  border-bottom: 1px solid #eee;
+  vertical-align: top;
+}
+
+.mi-avatar {
+  width: 44px;
+  height: 44px;
+  object-fit: cover;
+  border-radius: 50%;
+  box-shadow: 0 2px 6px rgb(0 0 0 / 15%);
+}
+
+.mi-badge {
+  display: inline-block;
+  padding: 4px 10px;
+  border-radius: 999px;
+  background: #fff6f0;
+  color: var(--primary-color);
+  border: 1px solid var(--primary-color);
+  font-weight: 600;
+  font-size: 0.85rem;
+}
+
+.mi-bio {
+  max-width: 420px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.mi-link a {
+  color: var(--primary-color);
+  text-decoration: none;
+  font-weight: 600;
+}
+.mi-link a:hover {
+  text-decoration: underline;
+}
+
+.mi-loading {
+  text-align: center;
+  padding: 20px;
+}
+.mi-error {
+  color: var(--error-color);
+  text-align: center;
+  padding: 10px;
+}
+
+/* Modal */
+.mi-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgb(0 0 0 / 50%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2000;
+}
+
+.mi-modal {
+  background: #fff;
+  border-radius: 12px;
+  width: 90%;
+  max-width: 560px;
+  padding: 22px;
+  box-shadow: 0 10px 30px rgb(0 0 0 / 20%);
+}
+
+.mi-form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.mi-form label {
+  display: flex;
+  flex-direction: column;
+  font-weight: 600;
+  color: var(--text-color);
+}
+
+.mi-form input,
+.mi-form select,
+.mi-form textarea {
+  margin-top: 6px;
+  padding: 10px;
+  border: 1px solid var(--input-border-color);
+  border-radius: 8px;
+  font-size: 1rem;
+  outline: none;
+}
+.mi-form textarea {
+  resize: vertical;
+}
+
+.mi-form-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 8px;
+}
+
+.mi-form-error {
+  color: var(--error-color);
+  margin-bottom: 8px;
+}

@@ -16,6 +16,7 @@ const NavigacioniMeni = ({ userData, handleLogout }) => {
           <>
             <Link to="/dashboard" className="nav-link">Dashboard</Link>
             <Link to="/admin/dogadjaji" className="nav-link">Menadžment Događaja</Link>
+            <Link to="/admin/izvodjaci" className="nav-link">Menadžment Izvođača</Link>
             <Link to="/rezervacije" className="nav-link">Rezervacije</Link>
           </>
         ) : (

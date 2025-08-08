@@ -35,7 +35,7 @@ class RezervacijaController extends Controller
             return response()->json(['error' => 'Samo radnici mogu pregledati određene rezervacije.'], 403);
         }
 
-        $rezervacija = Rezervacija::with('dogadjaj')->findOrFail($id);
+        $rezervacija = Rezervacija::with('dogadjaj', 'korisnik')->findOrFail($id);
         return new RezervacijaResource($rezervacija);
     }
     /**
@@ -192,5 +192,30 @@ class RezervacijaController extends Controller
             'po_dogadjaju' => $poDogadjaju,
         ], 200);
     }
+
+    /**
+     * Ažuriranje statusa rezervacije (samo radnici).
+     * Body: { "status": "placeno" | "neplaceno" }
+     */
+    public function updateStatus(Request $request, $id)
+    {
+        $user = Auth::user();
+        if (! $user || ! $user->app_employee) {
+            return response()->json(['error' => 'Samo radnici mogu ažurirati status rezervacije.'], 403);
+        }
+
+        $validated = $request->validate([
+            'status' => 'required|in:placeno,neplaceno',
+        ]);
+
+        $rezervacija = Rezervacija::with('dogadjaj','korisnik')->findOrFail($id);
+        $rezervacija->update(['status' => $validated['status']]);
+
+        return response()->json([
+            'message'     => 'Status rezervacije uspešno ažuriran.',
+            'rezervacija' => new RezervacijaResource($rezervacija),
+        ], 200);
+    }
+
 
 }

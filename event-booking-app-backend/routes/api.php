@@ -26,6 +26,8 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::post('/', [IzvodjacController::class, 'store']); 
         Route::put('/{id}', [IzvodjacController::class, 'update']);
     });
+
+    Route::patch('rezervacije/{id}/status', [RezervacijaController::class, 'updateStatus']);
     
     // Statistika rezervacija (samo admin/radnik)
     Route::get('rezervacije/stats', [RezervacijaController::class, 'stats']);

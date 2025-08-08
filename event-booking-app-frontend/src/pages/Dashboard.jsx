@@ -15,6 +15,9 @@ import {
   Tooltip, Legend,
 } from "recharts";
 
+// NOVO: hook bez API ključa (Deezer charts)
+import useTop5Izvodjaca from "../hooks/useTop5Izvodjaca";
+
 const Dashboard = ({ userData }) => {
   const navigate = useNavigate();
 
@@ -78,8 +81,11 @@ const Dashboard = ({ userData }) => {
   const fmt = (n) =>
     typeof n === "number" ? n.toLocaleString("sr-RS") : n ?? "—";
 
+  // NOVO: Top 5 izvođača (global chart id = 0)
+  const { izvodjaci, loading: topLoading, error: topErr } = useTop5Izvodjaca(0);
+
   return (
-    <div className="dashboard-page" style={{ marginTop: "1000px" }}>
+    <div className="dashboard-page" style={{ marginTop: "1300px" }}>
       <div className="dashboard-hero">
         <h1 className="dashboard-title">
           Dobrodošli na administratorski panel <span style={{ color: "#f89c1c" }}>EasyBook</span>
@@ -294,6 +300,96 @@ const Dashboard = ({ userData }) => {
               Nema podataka za prikaz grafikona.
             </div>
           )}
+
+          {/* ===== NOVO: Top 5 izvođača (Deezer) ispod grafika ===== */}
+          <div style={{ marginTop: 24 }}>
+            <h3 style={{ margin: "6px 0 12px", color: "#e44d26" }}>
+              Top 5 muzičkih izvođača (Deezer Chart)
+            </h3>
+
+            {topLoading && (
+              <div style={{
+                background: "#fff",
+                borderRadius: 12,
+                padding: 16,
+                boxShadow: "0 4px 10px rgba(0,0,0,0.1)",
+                border: "1px solid #eee",
+                textAlign: "center",
+              }}>
+                Učitavanje izvođača…
+              </div>
+            )}
+
+            {topErr && (
+              <div style={{
+                background: "#fff",
+                borderRadius: 12,
+                padding: 16,
+                boxShadow: "0 4px 10px rgba(0,0,0,0.1)",
+                border: "1px solid #eee",
+                color: "#e63946",
+                textAlign: "center",
+              }}>
+                Nije moguće dohvatiti listu izvođača.
+              </div>
+            )}
+
+            {!topLoading && !topErr && (
+              <div
+                style={{
+                  display: "grid",
+                  gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))",
+                  gap: 16,
+                }}
+              >
+                {izvodjaci.map((a) => (
+                  <div
+                    key={a.id}
+                    style={{
+                      background: "#fff",
+                      borderRadius: 12,
+                      padding: 12,
+                      boxShadow: "0 4px 10px rgba(0,0,0,0.1)",
+                      border: "1px solid #eee",
+                      display: "flex",
+                      flexDirection: "column",
+                      alignItems: "center",
+                      textAlign: "center",
+                    }}
+                  >
+                    <img
+                      src={a.slika || "/assets/default-performer.jpg"}
+                      alt={a.ime}
+                      style={{
+                        width: 140,
+                        height: 140,
+                        objectFit: "cover",
+                        borderRadius: "50%",
+                        marginBottom: 10,
+                      }}
+                    />
+                    <div style={{ fontWeight: 700, marginBottom: 8, color: "#333" }}>{a.ime}</div>
+                    <a
+                      href={a.link}
+                      target="_blank"
+                      rel="noreferrer"
+                      style={{
+                        textDecoration: "none",
+                        background: "#e44d26",
+                        color: "#fff",
+                        padding: "8px 12px",
+                        borderRadius: 8,
+                        fontWeight: 600,
+                      }}
+                    >
+                      Profil
+                    </a>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+          {/* ===== Kraj Top 5 izvođača ===== */}
         </div>
       )}
     </div>

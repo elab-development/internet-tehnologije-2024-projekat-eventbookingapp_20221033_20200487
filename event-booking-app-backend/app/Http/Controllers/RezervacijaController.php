@@ -20,7 +20,7 @@ class RezervacijaController extends Controller
             return response()->json(['error' => 'Samo radnici mogu pregledati sve rezervacije.'], 403);
         }
 
-        $rezervacije = Rezervacija::with('dogadjaj')->get();
+        $rezervacije = Rezervacija::with('dogadjaj','korisnik')->get();
         return RezervacijaResource::collection($rezervacije);
     }
 

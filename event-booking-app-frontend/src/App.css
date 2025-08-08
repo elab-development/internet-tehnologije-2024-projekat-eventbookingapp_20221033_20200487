@@ -1229,3 +1229,152 @@ button:hover {
   color: var(--error-color);
   margin-bottom: 8px;
 }
+
+.rez-page {
+  max-width: 1200px;
+  margin: 30% auto 40px;
+  padding: 0 20px;
+}
+
+.rez-header h1 {
+  margin: 0 0 6px 0;
+  color: var(--primary-color);
+}
+
+.rez-subtitle {
+  margin: 0 0 16px 0;
+  color: var(--text-color);
+  opacity: 0.9;
+}
+
+.rez-loading,
+.rez-error {
+  text-align: center;
+  padding: 12px;
+}
+.rez-error { color: var(--error-color); }
+
+/* Table */
+.rez-table-wrap {
+  background: #fff;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgb(0 0 0 / 10%);
+  overflow: auto;
+}
+
+.rez-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.rez-table thead th {
+  background: var(--secondary-color);
+  color: #fff;
+  text-align: left;
+  padding: 12px;
+  font-weight: 700;
+}
+
+.rez-table tbody td {
+  padding: 12px;
+  border-bottom: 1px solid #eee;
+  vertical-align: top;
+}
+
+/* Badges */
+.rez-badge {
+  display: inline-block;
+  padding: 4px 10px;
+  border-radius: 999px;
+  font-weight: 600;
+  font-size: 0.85rem;
+}
+.rez-placeno {
+  background: #e8fff1;
+  color: #0b7a3b;
+  border: 1px solid #0b7a3b;
+}
+.rez-neplaceno {
+  background: #fff6f0;
+  color: var(--primary-color);
+  border: 1px solid var(--primary-color);
+}
+
+/* Buttons */
+.rez-ghost-btn {
+  background: #fff;
+  border: 2px solid var(--primary-color);
+  color: var(--primary-color);
+  padding: 8px 10px;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all .2s ease;
+  margin-right: 8px;
+}
+.rez-ghost-btn:hover {
+  background: var(--secondary-color);
+  color: #fff;
+  border-color: var(--secondary-color);
+}
+
+.rez-danger-btn {
+  background: #f44336;
+  border: none;
+  color: #fff;
+  padding: 9px 12px;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: filter .2s ease;
+}
+.rez-danger-btn:hover { filter: brightness(0.95); }
+
+/* Pagination */
+.rez-pagination {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  margin-top: 16px;
+}
+
+/* Modal */
+.rez-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgb(0 0 0 / 50%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2000;
+}
+
+.rez-modal {
+  background: #fff;
+  border-radius: 12px;
+  width: 90%;
+  max-width: 560px;
+  padding: 22px;
+  box-shadow: 0 10px 30px rgb(0 0 0 / 20%);
+}
+
+.rez-detail {
+  margin-top: 10px;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 8px;
+}
+
+.rez-detail-row {
+  display: flex;
+  gap: 8px;
+}
+.rez-detail-row strong {
+  min-width: 160px;
+}
+
+.rez-modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 14px;
+}

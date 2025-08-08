@@ -171,7 +171,7 @@ const MenadzmentIzvodjaca = ({ userData }) => {
   }
 
   return (
-    <div className="mi-page" style={{ marginTop: "30%"}}>
+    <div className="mi-page">
       <div className="mi-header">
         <h1>Menadžment Izvođača</h1>
         <div className="mi-controls">
@@ -263,7 +263,7 @@ const MenadzmentIzvodjaca = ({ userData }) => {
               type="button"
               disabled={page === 1}
             />
-            <span style={{ alignSelf: "center" }}>
+            <span style={{ alignSelf: "center", whiteSpace: "nowrap" }}>
               Strana {page} od {totalPages}
             </span>
             <Button

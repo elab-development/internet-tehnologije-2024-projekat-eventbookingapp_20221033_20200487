@@ -13,6 +13,7 @@ import Dashboard from "./pages/Dashboard";
 import MojeRezervacije from "./pages/MojeRezervacije";
 import MenadzmentDogadjaja from './pages/MenadzmentDogadjaja';
 import MenadzmentIzvodjaca from './pages/MenadzmentIzvodjaca';
+import Rezervacije from './pages/Rezervacije';
 
 function App() {
   const [userData, setUserData] = useState({
@@ -104,6 +105,14 @@ function App() {
           element={
             userData.token
               ? <MenadzmentIzvodjaca userData={userData}/>
+              : <Navigate to="/" replace/>
+          }
+        />
+        <Route
+          path="/rezervacije"
+          element={
+            userData.token
+              ? <Rezervacije userData={userData}/>
               : <Navigate to="/" replace/>
           }
         />

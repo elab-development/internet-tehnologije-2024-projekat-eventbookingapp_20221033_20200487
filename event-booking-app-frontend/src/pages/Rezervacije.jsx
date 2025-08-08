@@ -23,6 +23,10 @@ const Rezervacije = ({ userData }) => {
   const [detailLoading, setDetailLoading] = useState(false);
   const [detailErr, setDetailErr] = useState(null);
 
+  // status patch
+  const [statusSaving, setStatusSaving] = useState(false);
+  const [statusErr, setStatusErr] = useState(null);
+
   useEffect(() => {
     if (!token || !isAdmin) return;
     setLoading(true);
@@ -50,6 +54,7 @@ const Rezervacije = ({ userData }) => {
     setSelectedId(id);
     setDetail(null);
     setDetailErr(null);
+    setStatusErr(null);
     setOpen(true);
     setDetailLoading(true);
     fetch(`http://127.0.0.1:8000/api/rezervacije/${id}`, {
@@ -68,6 +73,40 @@ const Rezervacije = ({ userData }) => {
     setOpen(false);
     setSelectedId(null);
     setDetail(null);
+    setStatusErr(null);
+  }
+
+  async function patchStatus(newStatus) {
+    if (!selectedId) return;
+    setStatusSaving(true);
+    setStatusErr(null);
+    try {
+      const res = await fetch(`http://127.0.0.1:8000/api/rezervacije/${selectedId}/status`, {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({ status: newStatus }),
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data?.error || "Ažuriranje statusa nije uspelo.");
+
+      const updated = data?.rezervacija ?? data?.data ?? data;
+
+      // osveži detalj
+      setDetail((d) => (d ? { ...d, status: updated.status } : updated));
+
+      // osveži red u listi
+      setItems((prev) =>
+        prev.map((r) => (r.id === updated.id ? { ...r, status: updated.status } : r))
+      );
+    } catch (e) {
+      setStatusErr(e.message);
+    } finally {
+      setStatusSaving(false);
+    }
   }
 
   if (!token || !isAdmin) {
@@ -79,7 +118,7 @@ const Rezervacije = ({ userData }) => {
       <div className="rez-header">
         <h1>Rezervacije — Admin pregled</h1>
         <p className="rez-subtitle">
-          Prikaz svih rezervacija. Klikom na <em>Detalji</em> otvarate modal sa kompletnim informacijama.
+          Prikaz svih rezervacija. Klikom na <em>Promeni status</em> otvarate modal sa kompletnim informacijama i akcijom za ažuriranje statusa.
         </p>
       </div>
 
@@ -132,7 +171,7 @@ const Rezervacije = ({ userData }) => {
                         <td>{ukupno}</td>
                         <td style={{ textAlign: "right" }}>
                           <button className="rez-ghost-btn" onClick={() => openDetails(r.id)}>
-                            Detalji
+                            Promeni status
                           </button>
                         </td>
                       </tr>
@@ -206,13 +245,25 @@ const Rezervacije = ({ userData }) => {
                   <strong>Ukupna cena:</strong>{" "}
                   <span>{detail?.ukupna_cena ?? (detail?.dogadjaj?.cena ?? 0) * (detail?.broj_karata ?? 0)} RSD</span>
                 </div>
-                {detail?.recenzija && (
-                  <div className="rez-detail-row">
-                    <strong>Recenzija:</strong> <span>{detail.recenzija}</span>
-                  </div>
+
+                {/* PATCH status section */}
+                {statusErr && (
+                  <div className="rez-error" style={{ marginTop: 8 }}>{statusErr}</div>
                 )}
-                <div className="rez-modal-actions">
+                <div className="rez-modal-actions" style={{ gap: 8 }}>
                   <Button text="Zatvori" onClick={closeDetails} />
+                  <Button
+                    text={
+                      statusSaving
+                        ? "Ažuriram…"
+                        : detail?.status === "placeno"
+                        ? "Postavi na NEPLAĆENO"
+                        : "Postavi na PLAĆENO"
+                    }
+                    onClick={() =>
+                      patchStatus(detail?.status === "placeno" ? "neplaceno" : "placeno")
+                    }
+                  />
                 </div>
               </div>
             )}

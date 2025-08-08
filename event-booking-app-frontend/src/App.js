@@ -6,7 +6,6 @@ import Registracija from "./pages/Registracija";
 import Pocetna from "./pages/Pocetna";
 import Dogadjaji from "./pages/Dogadjaji";
 import DogadjajDetalji from "./pages/DogadjajDetalji"; 
-import Izvodjaci from "./pages/Izvodjaci"; 
 import NavigacioniMeni from "./components/NavigacioniMeni";
 import Futer from "./components/Futer";
 import Dashboard from "./pages/Dashboard";
@@ -72,10 +71,6 @@ function App() {
         <Route
           path="/dogadjaj/:id"
           element={userData.token && userData.app_employee === 0 ? <DogadjajDetalji userData={userData} /> : <Navigate to="/" replace />}
-        />
-        <Route
-          path="/izvodjaci"
-          element={userData.token && userData.app_employee === 0 ? <Izvodjaci userData={userData} /> : <Navigate to="/" replace />}
         />
         <Route
         path="/dashboard"

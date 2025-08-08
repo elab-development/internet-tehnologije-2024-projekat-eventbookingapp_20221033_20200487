@@ -26,13 +26,17 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::post('/', [IzvodjacController::class, 'store']); 
         Route::put('/{id}', [IzvodjacController::class, 'update']);
     });
-
+    
+    // Statistika rezervacija (samo admin/radnik)
+    Route::get('rezervacije/stats', [RezervacijaController::class, 'stats']);
     Route::get('rezervacije/moje', [RezervacijaController::class, 'myReservations']);
     Route::get('dogadjaji/{id}/recenzije', [RezervacijaController::class, 'eventReviews']);
     Route::post('rezervacije/{id}', [RezervacijaController::class, 'leaveReview']);
     Route::resource('rezervacije', RezervacijaController::class)->only([
         'index', 'show', 'store', 'destroy'
     ]);    
+
+
 
     Route::post('/logout', [AuthController::class, 'logout']);
 });

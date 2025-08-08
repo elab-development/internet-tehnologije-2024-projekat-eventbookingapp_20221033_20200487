@@ -171,7 +171,7 @@ const MenadzmentIzvodjaca = ({ userData }) => {
   }
 
   return (
-    <div className="mi-page">
+    <div className="mi-page" style={{ marginTop:"30%" }}>
       <div className="mi-header">
         <h1>Menadžment Izvođača</h1>
         <div className="mi-controls">

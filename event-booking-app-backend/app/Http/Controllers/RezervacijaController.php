@@ -137,4 +137,60 @@ class RezervacijaController extends Controller
 
         return RezervacijaResource::collection($reviews);
     }
+
+    /**
+     * Statistika rezervacija (samo radnici).
+     * Vraća zbirne brojke i pregled po događaju.
+     */
+    public function stats()
+    {
+        $user = Auth::user();
+        if (! $user || ! $user->app_employee) {
+            return response()->json(['error' => 'Samo radnici mogu pregledati statistiku rezervacija.'], 403);
+        }
+
+        // Učitavamo i događaj da izračunamo prihod (cena * broj_karata)
+        $rezervacije = Rezervacija::with('dogadjaj')->get();
+
+        $ukupnoRezervacija = $rezervacije->count();
+        $placeno           = $rezervacije->where('status', 'placeno')->count();
+        $neplaceno         = $rezervacije->where('status', 'neplaceno')->count();
+        $ukupnoKarata      = $rezervacije->sum('broj_karata');
+
+        // Prihodi (ukupno i samo plaćeno)
+        $calcPrihod = fn ($r) => (($r->dogadjaj->cena ?? 0) * ($r->broj_karata ?? 0));
+        $prihodUkupno  = $rezervacije->sum($calcPrihod);
+        $prihodPlaceno = $rezervacije
+            ->where('status', 'placeno')
+            ->sum($calcPrihod);
+
+        // Pregled po događaju
+        $poDogadjaju = $rezervacije
+            ->groupBy('dogadjaj_id')
+            ->map(function ($group) use ($calcPrihod) {
+                $first = $group->first();
+                return [
+                    'dogadjaj_id'       => $first->dogadjaj_id,
+                    'naziv'             => optional($first->dogadjaj)->naziv,
+                    'broj_rezervacija'  => $group->count(),
+                    'ukupno_karata'     => $group->sum('broj_karata'),
+                    'prihod_ukupno'     => $group->sum($calcPrihod),
+                    'prihod_placeno'    => $group->where('status', 'placeno')->sum($calcPrihod),
+                ];
+            })
+            ->values();
+
+        return response()->json([
+            'stats' => [
+                'ukupno_rezervacija' => $ukupnoRezervacija,
+                'placeno'            => $placeno,
+                'neplaceno'          => $neplaceno,
+                'ukupno_karata'      => $ukupnoKarata,
+                'prihod_ukupno'      => $prihodUkupno,
+                'prihod_placeno'     => $prihodPlaceno,
+            ],
+            'po_dogadjaju' => $poDogadjaju,
+        ], 200);
+    }
+
 }

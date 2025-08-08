@@ -27,6 +27,8 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::put('/{id}', [IzvodjacController::class, 'update']);
     });
 
+    Route::get('rezervacije/export/csv', [RezervacijaController::class, 'exportCsv']);
+
     Route::patch('rezervacije/{id}/status', [RezervacijaController::class, 'updateStatus']);
     
     // Statistika rezervacija (samo admin/radnik)

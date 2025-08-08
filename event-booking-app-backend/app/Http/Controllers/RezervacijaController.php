@@ -218,4 +218,83 @@ class RezervacijaController extends Controller
     }
 
 
+    /**
+    * EXPORT: CSV svih rezervacija (samo radnici).
+    */
+    public function exportCsv()
+    {
+        $user = Auth::user();
+        if (! $user || ! $user->app_employee) {
+            return response()->json(['error' => 'Samo radnici mogu eksportovati rezervacije.'], 403);
+        }
+
+        $rezervacije = Rezervacija::with(['dogadjaj','korisnik'])
+            ->orderBy('id')
+            ->get();
+
+        $filename = 'rezervacije_' . now()->format('Ymd_His') . '.csv';
+
+        $headers = [
+            'Content-Type'        => 'text/csv; charset=UTF-8',
+            'Content-Disposition' => "attachment; filename=\"$filename\"",
+            'Pragma'              => 'no-cache',
+            'Cache-Control'       => 'must-revalidate, post-check=0, pre-check=0',
+            'Expires'             => '0',
+        ];
+
+        $columns = [
+            'ID',
+            'Datum',
+            'Status',
+            'Broj karata',
+            'Tip karte',
+            'Recenzija',
+            'Korisnik ID',
+            'Korisnik ime',
+            'Korisnik email',
+            'Događaj ID',
+            'Događaj naziv',
+            'Cena karte (RSD)',
+            'Ukupna cena (RSD)',
+            'Kreirano',
+            'Ažurirano',
+        ];
+
+        return response()->streamDownload(function () use ($rezervacije, $columns) {
+            $handle = fopen('php://output', 'w');
+
+            // UTF-8 BOM za Excel
+            fwrite($handle, chr(0xEF) . chr(0xBB) . chr(0xBF));
+
+            // Header
+            fputcsv($handle, $columns);
+
+            foreach ($rezervacije as $r) {
+                $cena = optional($r->dogadjaj)->cena ?? 0;
+                $ukupno = $cena * ($r->broj_karata ?? 0);
+
+                fputcsv($handle, [
+                    $r->id,
+                    $r->datum,
+                    $r->status,
+                    $r->broj_karata,
+                    $r->tip_karti,
+                    $r->recenzija,
+                    optional($r->korisnik)->id,
+                    optional($r->korisnik)->name ?? optional($r->korisnik)->ime,
+                    optional($r->korisnik)->email,
+                    optional($r->dogadjaj)->id,
+                    optional($r->dogadjaj)->naziv,
+                    $cena,
+                    $ukupno,
+                    optional($r->created_at)?->toDateTimeString(),
+                    optional($r->updated_at)?->toDateTimeString(),
+                ]);
+            }
+
+            fclose($handle);
+        }, $filename, $headers);
+    }
+
+
 }

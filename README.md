@@ -4,22 +4,6 @@
 
 ---
 
-## Sadržaj
-- [Funkcionalnosti](#funkcionalnosti)
-  - [Korisnik](#korisnik)
-  - [Zaposleni (admin)](#zaposleni-admin)
-- [Arhitektura i tehnologije](#arhitektura-i-tehnologije)
-  - [Frontend](#frontend)
-  - [Backend](#backend)
-  - [Baza podataka](#baza-podataka)
-- [Integracije (javni web servisi)](#integracije-javni-web-servisi)
-- [Korisničke uloge](#korisničke-uloge)
-- [UX i dizajn](#ux-i-dizajn)
-- [Tipičan tok rada](#tipičan-tok-rada)
-- [Napomene](#napomene)
-
----
-
 ## Funkcionalnosti
 
 ### Korisnik

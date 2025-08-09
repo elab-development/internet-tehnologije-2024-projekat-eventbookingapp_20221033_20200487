@@ -1,6 +1,6 @@
 // src/pages/MenadzmentDogadjaja.jsx
 import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import Kartica from "../components/Kartica";
 import Button from "../components/Button";
 import usePerformers from "../hooks/usePerformers";
@@ -108,6 +108,10 @@ const MenadzmentDogadjaja = ({ userData }) => {
 
   return (
     <div className="md-page" style={{marginTop:"1200px"}}>
+      <div>
+        <Link style={{color:"#FF7043", fontWeight:"bold"}} to="/dashboard">Dashboard</Link> &gt; 
+        <span style={{fontWeight:"bold"}}>Menadzment Dogadjaja</span>
+      </div>
       <div className="md-header">
         <h1>Menadžment Događaja</h1>
         <Button text="Novi događaj" onClick={openModal} />

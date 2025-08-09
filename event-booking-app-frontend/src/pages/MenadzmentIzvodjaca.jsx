@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import Button from "../components/Button";
 
 const ZANROVI = ["pop", "folk", "rep", "rok", "klasika", "tehno", "narodna"];
@@ -172,6 +172,10 @@ const MenadzmentIzvodjaca = ({ userData }) => {
 
   return (
     <div className="mi-page" style={{ marginTop:"30%" }}>
+      <div>
+        <Link style={{color:"#FF7043", fontWeight:"bold"}} to="/dashboard">Dashboard</Link> &gt; 
+        <span style={{fontWeight:"bold"}}>Menadzment Izvodjaca</span>
+      </div>
       <div className="mi-header">
         <h1>Menadžment Izvođača</h1>
         <div className="mi-controls">

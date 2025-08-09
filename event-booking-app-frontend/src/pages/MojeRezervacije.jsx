@@ -79,6 +79,10 @@ const MojeRezervacije = ({ userData }) => {
 
   return (
     <div className="mr-page">
+      <div>
+        <Link style={{color:"#FF7043", fontWeight:"bold"}} to="/pocetna">Početna</Link> &gt; 
+        <span style={{fontWeight:"bold"}}>Moje Rezervacije</span>
+      </div>
       <h1 className="mr-title">Moje Rezervacije</h1>
       <div className="mr-grid">
         {reservations.map(r => (

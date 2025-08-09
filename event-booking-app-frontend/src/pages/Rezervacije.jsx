@@ -1,5 +1,6 @@
 import React, { useEffect, useMemo, useState } from "react";
 import Button from "../components/Button";
+import { Link } from "react-router-dom";
 
 const Rezervacije = ({ userData }) => {
   const token =
@@ -145,6 +146,10 @@ const Rezervacije = ({ userData }) => {
 
   return (
     <div className="rez-page">
+      <div>
+        <Link style={{color:"#FF7043", fontWeight:"bold"}} to="/dashboard">Dashboard</Link> &gt; 
+        <span style={{fontWeight:"bold"}}>Menadzment Rezervacija</span>
+      </div>
       <div className="rez-header">
         <h1>Rezervacije — Admin pregled</h1>
         <p className="rez-subtitle">

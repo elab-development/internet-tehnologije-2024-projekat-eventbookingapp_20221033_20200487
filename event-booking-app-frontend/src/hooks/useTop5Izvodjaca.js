@@ -1,6 +1,7 @@
 // /src/hooks/useTop5Izvodjaca.js
 import { useEffect, useState } from "react";
 
+// Map Deezer artists -> your UI fields
 const mapArtists = (arr = []) =>
   arr.slice(0, 5).map((a) => ({
     id: a.id,
@@ -8,6 +9,15 @@ const mapArtists = (arr = []) =>
     slika: a.picture_medium || a.picture_big || a.picture || "",
     link: a.link,
   }));
+
+// "Always works" fallback if every remote call fails
+const FALLBACK = [
+  { id: 1, ime: "Taylor Swift", slika: "", link: "https://www.deezer.com" },
+  { id: 2, ime: "The Weeknd",   slika: "", link: "https://www.deezer.com" },
+  { id: 3, ime: "Bad Bunny",    slika: "", link: "https://www.deezer.com" },
+  { id: 4, ime: "Drake",        slika: "", link: "https://www.deezer.com" },
+  { id: 5, ime: "Dua Lipa",     slika: "", link: "https://www.deezer.com" },
+];
 
 const useTop5Izvodjaca = (countryId = 0) => {
   const [izvodjaci, setIzvodjaci] = useState([]);
@@ -18,57 +28,140 @@ const useTop5Izvodjaca = (countryId = 0) => {
     let alive = true;
     let resolved = false;
 
-    const originalJsonUrl = `https://api.deezer.com/chart/${countryId}/artists?limit=5`;
-    const callbackName = `dzCb_${Date.now()}_${Math.floor(Math.random() * 1e6)}`;
+    const baseUrl = `https://api.deezer.com/chart/${countryId}/artists?limit=5`;
 
-    const finish = (data, errMsg = null) => {
+    const finish = (payload, errMsg = null) => {
       if (!alive || resolved) return;
       resolved = true;
-      if (errMsg) {
+
+      if (payload && Array.isArray(payload.data)) {
+        setIzvodjaci(mapArtists(payload.data));
+        setError(null);
+      } else if (!payload && errMsg) {
+        // total failure -> fallback so UI still works
+        setIzvodjaci(FALLBACK);
         setError(errMsg);
-        setIzvodjaci([]);
       } else {
-        const list = Array.isArray(data?.data) ? mapArtists(data.data) : [];
-        setIzvodjaci(list);
+        setIzvodjaci(FALLBACK);
+        setError("Nepoznat format odgovora.");
       }
       setLoading(false);
-      // clean JSONP callback
-      try { delete window[callbackName]; } catch {}
     };
 
-    const fallbackViaAllOrigins = () => {
-      // Proxy koji vraća CORS-ok JSON kao string u "contents"
-      fetch(`https://api.allorigins.win/get?url=${encodeURIComponent(originalJsonUrl)}`)
-        .then((r) => (r.ok ? r.json() : Promise.reject(new Error("AllOrigins HTTP error"))))
-        .then((obj) => {
-          const json = JSON.parse(obj.contents || "{}");
-          finish(json);
+    // Try JSONP first (if Deezer supports it; some browsers enforce CORB/CORS anyway)
+    const tryJsonp = () =>
+      new Promise((resolve, reject) => {
+        const cb = `dzCb_${Date.now()}_${Math.floor(Math.random() * 1e6)}`;
+        const script = document.createElement("script");
+
+        // Define global callback
+        window[cb] = (json) => {
+          try {
+            resolve(json);
+          } finally {
+            delete window[cb];
+            script.remove();
+          }
+        };
+
+        script.src = `${baseUrl}&output=jsonp&callback=${cb}`;
+        script.async = true;
+        script.onerror = () => {
+          delete window[cb];
+          script.remove();
+          reject(new Error("JSONP blokiran/CORS"));
+        };
+
+        // Safety timeout for JSONP
+        const t = setTimeout(() => {
+          delete window[cb];
+          try { script.remove(); } catch {}
+          reject(new Error("JSONP timeout"));
+        }, 7000);
+
+        // If it resolves/rejects, clear timeout
+        const origResolve = resolve;
+        const origReject = reject;
+        resolve = (v) => { clearTimeout(t); origResolve(v); };
+        reject = (e) => { clearTimeout(t); origReject(e); };
+
+        document.body.appendChild(script);
+      });
+
+    // Fetch helper with timeout, returns text
+    const fetchText = (url, ms = 8000) =>
+      new Promise((resolve, reject) => {
+        const ctrl = new AbortController();
+        const id = setTimeout(() => ctrl.abort(), ms);
+        fetch(url, {
+          // DO NOT use mode:"no-cors" (opaque = unreadable). We need readable responses.
+          method: "GET",
+          headers: { "Accept": "*/*" },
+          signal: ctrl.signal,
         })
-        .catch((e) => finish(null, e.message || "Neuspelo učitavanje (proxy)."));
+          .then((r) => (r.ok ? r.text() : Promise.reject(new Error(`HTTP ${r.status}`))))
+          .then((txt) => resolve(txt))
+          .catch(reject)
+          .finally(() => clearTimeout(id));
+      });
+
+    // Try a chain of public proxies that usually allow CORS:
+    // 1) allorigins RAW (returns plain body)
+    // 2) allorigins JSON (parse from .contents)
+    // 3) r.jina.ai (caches & returns body as text/plain with CORS *)
+    const tryProxies = async () => {
+      const attempts = [
+        async () => {
+          const txt = await fetchText(`https://api.allorigins.win/raw?url=${encodeURIComponent(baseUrl)}`);
+          return JSON.parse(txt);
+        },
+        async () => {
+          const txt = await fetchText(`https://api.allorigins.win/get?url=${encodeURIComponent(baseUrl)}`);
+          // format: { contents: "<stringified JSON from target>" }
+          const outer = JSON.parse(txt);
+          return JSON.parse(outer?.contents || "{}");
+        },
+        async () => {
+          // r.jina.ai returns the target body as text (CORS enabled); parse to JSON
+          const txt = await fetchText(`https://r.jina.ai/http://api.deezer.com/chart/${countryId}/artists?limit=5`);
+          return JSON.parse(txt);
+        },
+      ];
+
+      let lastErr = null;
+      for (const step of attempts) {
+        try {
+          const json = await step();
+          if (json && (Array.isArray(json.data) || json.data)) return json;
+        } catch (e) {
+          lastErr = e;
+        }
+      }
+      throw lastErr || new Error("Svi proxy pokušaji su propali.");
     };
 
-    // 1) Pokušaj JSONP
-    window[callbackName] = (payload) => finish(payload);
-    const s = document.createElement("script");
-    s.src = `${originalJsonUrl}&output=jsonp&callback=${callbackName}`;
-    s.async = true;
-    s.crossOrigin = "anonymous";
-    s.referrerPolicy = "no-referrer";
-    s.onerror = () => {
-      if (!resolved) fallbackViaAllOrigins();
-    };
-    document.body.appendChild(s);
+    (async () => {
+      setLoading(true);
+      setError(null);
 
-    // 2) Safety timeout – ako JSONP ne odgovori
-    const t = setTimeout(() => {
-      if (!resolved) fallbackViaAllOrigins();
-    }, 8000);
+      try {
+        // 1) JSONP (fast path if browser accepts it)
+        const jsonpResult = await tryJsonp();
+        finish(jsonpResult);
+      } catch (_) {
+        // 2) Proxies chain
+        try {
+          const proxied = await tryProxies();
+          finish(proxied);
+        } catch (e2) {
+          // 3) Hard fallback — never break the UI
+          finish(null, e2?.message || "Nije moguće dohvatiti podatke (CORS/proxy).");
+        }
+      }
+    })();
 
     return () => {
       alive = false;
-      clearTimeout(t);
-      try { s.remove(); } catch {}
-      try { delete window[callbackName]; } catch {}
     };
   }, [countryId]);
 
